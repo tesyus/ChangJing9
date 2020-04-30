@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{948de949-b0ce-4469-8978-eab344e9da71}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)asn\der\base.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)asn\der\identifier.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)asn\der\sequence.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)checksum\crc32.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)checksum\ipv4.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)datum\natural.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)peer\slang.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)syslog.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)syslog\logging.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)syslog\metainfo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)syslog\receiver\rsyslog.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)syslog\receiver\vstudio.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)syslog\receiver\windows.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)asn\der.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)asn\der\base.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)asn\der\enumerated.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)asn\der\identifier.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)asn\der\sequence.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)checksum\crc32.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)checksum\ipv4.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\natural.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)peer\slang.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)syslog.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)syslog\logging.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)syslog\metainfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)syslog\receiver\rsyslog.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)syslog\receiver\vstudio.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)syslog\receiver\windows.hpp" />
+  </ItemGroup>
+</Project>

@@ -26,6 +26,7 @@
 #include <iotables\do_devices.hpp>
 
 using namespace WarGrey::SCADA;
+using namespace WarGrey::GYDM;
 
 using namespace Windows::System;
 using namespace Windows::Foundation;
@@ -196,6 +197,9 @@ public:
 		this->load_dimensions(this->dimensions, HD::BowDraft, HD::SternDraft, "meter", this->plain_style);
 
 		this->load_alarms(this->lockers, BottomDoorCommand::AutoLock, BottomDoorCommand::Locked, vinset * 2.0F);
+		//泥门开度设置
+		this->load_settings(this->door_opendegree, HD::OpenDegree, "percent", "S");
+		this->load_button(this->button, HD::OpenDegree);
 		
 		{ // load captions
 			CanvasTextFormat^ cpt_font = make_bold_text_format("Microsoft YaHei", large_font_size);
@@ -203,9 +207,6 @@ public:
 			this->load_label(this->labels, HD::Port, Colours::make(default_ps_color), cpt_font);
 			this->load_label(this->labels, HD::Starboard, Colours::make(default_sb_color), cpt_font);
 		}
-		//泥门开度设置
-		this->load_settings(this->door_opendegree, HD::OpenDegree, "%", "S");
-		this->load_button(this->button,HD::OpenDegree);
 	}
 
 	void reflow(float width, float height, float vinset) {
@@ -492,7 +493,7 @@ void HopperDoorsPage::reflow(float width, float height) {
 	}
 }
 
-void HopperDoorsPage::on_timestream(long long timepoint_ms, size_t addr0, size_t addrn, uint8* data, size_t size, Syslog* logger) {
+void HopperDoorsPage::on_timestream(long long timepoint_ms, size_t addr0, size_t addrn, uint8* data, size_t size, uint64 p_type, size_t p_size, Syslog* logger) {
 	auto db = dynamic_cast<Doors*>(this->dashboard);
 
 	if (db != nullptr) {

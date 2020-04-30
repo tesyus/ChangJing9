@@ -34,9 +34,11 @@
 #include "iotables/do_valves.hpp"
 #include "iotables/do_water_pumps.hpp"
 #include <iotables\ao_pumps.hpp>
+#include <iotables\di_menu.hpp>
 
 
 using namespace WarGrey::SCADA;
+using namespace WarGrey::GYDM;
 
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Numerics;
@@ -210,36 +212,33 @@ public:
 		
 		DI_shift_button(this->shifts[FlushingCommand::LeftShift], DB205, left_shifting_details);
 		DI_shift_button(this->shifts[FlushingCommand::RightShift], DB205, right_shifting_details);
-		/*
-		if (this->ps_menu != nullptr) {
-			DI_water_condition_menu(this->ps_menu, _I(PSWaterPumpAction::PS_PS), DB205, ps_ps_details);
-			DI_water_condition_menu(this->ps_menu, _I(PSWaterPumpAction::PS_SB), DB205, ps_sb_details);
-			DI_water_condition_menu(this->ps_menu, _I(PSWaterPumpAction::PS_2), DB205, ps_2_details);
-			DI_water_condition_menu(this->ps_menu, _I(PSWaterPumpAction::PS_H), DB205, ps_h_details);
-			DI_water_condition_menu(this->ps_menu, _I(PSWaterPumpAction::S2_PS), DB205, s2_ps_details);
-			DI_water_condition_menu(this->ps_menu, _I(PSWaterPumpAction::S2_SB), DB205, s2_sb_details);
-			//DI_water_condition_menu(this->ps_menu, _I(PSWaterPumpAction::S2_2), DB205, s2_2_details);
-			DI_water_condition_menu(this->ps_menu, _I(PSWaterPumpAction::S2_H), DB205, s2_h_details);
-			//DI_water_condition_menu(this->ps_menu, _I(PSWaterPumpAction::P2_2), DB205, p2_2_details);
-			DI_water_condition_menu(this->ps_menu, _I(PSWaterPumpAction::P2_H), DB205, p2_h_details);
-			DI_water_condition_menu(this->ps_menu, _I(PSWaterPumpAction::I2_2), DB205, i2_2_details);
-		}
-		*/
-		if (this->sb_menu != nullptr) {
-			
-			DI_water_condition_menu(this->sb_menu, _I(SBWaterPumpAction::SB_PS), DB205, sb_ps_details);
-			/*
-			DI_water_condition_menu(this->sb_menu, _I(SBWaterPumpAction::SB_SB), DB205, sb_sb_details);
-			DI_water_condition_menu(this->sb_menu, _I(SBWaterPumpAction::SB_2), DB205, sb_2_details);
-			DI_water_condition_menu(this->sb_menu, _I(SBWaterPumpAction::SB_H), DB205, sb_h_details);
-			DI_water_condition_menu(this->sb_menu, _I(SBWaterPumpAction::S2_PS), DB205, s2_ps_details);
-			DI_water_condition_menu(this->sb_menu, _I(SBWaterPumpAction::S2_SB), DB205, s2_sb_details);
-			//DI_water_condition_menu(this->sb_menu, _I(SBWaterPumpAction::S2_2), DB205, s2_2_details);
-			DI_water_condition_menu(this->sb_menu, _I(SBWaterPumpAction::S2_H), DB205, s2_h_details);
-			//DI_water_condition_menu(this->sb_menu, _I(SBWaterPumpAction::P2_2), DB205, p2_2_details);
-			DI_water_condition_menu(this->sb_menu, _I(SBWaterPumpAction::P2_H), DB205, p2_h_details);
-			DI_water_condition_menu(this->sb_menu, _I(SBWaterPumpAction::I2_2), DB205, i2_2_details);*/
-		}
+
+		ui_thread_run_async([=]() {
+			if (this->ps_menu != nullptr) {
+				DI_condition_menu(this->ps_menu, PSWaterPumpAction::PS_PS, DB205, PS_PS);
+				DI_condition_menu(this->ps_menu, PSWaterPumpAction::PS_SB, DB205, PS_SB);
+				DI_condition_menu(this->ps_menu, PSWaterPumpAction::PS_2, DB205, PS_2);
+				DI_condition_menu(this->ps_menu, PSWaterPumpAction::S2_PS, DB205, S2_PS);
+				DI_condition_menu(this->ps_menu, PSWaterPumpAction::S2_SB, DB205, S2_SB);
+				DI_condition_menu(this->ps_menu, PSWaterPumpAction::I2_2, DB205, I2_2);
+				DI_condition_menu(this->ps_menu, PSWaterPumpAction::PS_H, DB205, PS_H);
+				DI_condition_menu(this->ps_menu, PSWaterPumpAction::S2_H, DB205, S2_H);
+				DI_condition_menu(this->ps_menu, PSWaterPumpAction::P2_H, DB205, P2_H);
+			}
+
+			if (this->sb_menu != nullptr) {
+				DI_condition_menu(this->sb_menu, SBWaterPumpAction::SB_PS, DB205, SB_PS);
+				DI_condition_menu(this->sb_menu, SBWaterPumpAction::SB_SB, DB205, SB_SB);
+				DI_condition_menu(this->sb_menu, SBWaterPumpAction::SB_2, DB205, SB_2);
+				DI_condition_menu(this->sb_menu, SBWaterPumpAction::S2_PS, DB205, S2_PS);
+				DI_condition_menu(this->sb_menu, SBWaterPumpAction::S2_SB, DB205, S2_SB);
+				DI_condition_menu(this->sb_menu, SBWaterPumpAction::I2_2, DB205, I2_2);
+				DI_condition_menu(this->sb_menu, SBWaterPumpAction::SB_H, DB205, SB_H);
+				DI_condition_menu(this->sb_menu, SBWaterPumpAction::S2_H, DB205, S2_H);
+				DI_condition_menu(this->sb_menu, SBWaterPumpAction::P2_H, DB205, P2_H);
+			}
+			});
+
 		CurrentWaterWorkingMode = DI_getwaterworkingmode(DB205);
 	}
 
@@ -247,58 +246,58 @@ public:
 		this->pumps_rpm[FS::PSPump]->set_value(DBD(DB20, 658U), GraphletAnchor::LB);//左
 		this->pumps_rpm[FS::SBPump]->set_value(DBD(DB20, 670U), GraphletAnchor::LB);//右
 	}
-	void post_read_data(Syslog* logger) override {
+	void on_signals_updated(long long timepoint_ms, Syslog* logger) override {
 		{ // flow water
 			switch (CurrentWaterWorkingMode) {
-				case WarGrey::SCADA::WaterPumpConditionAction::PS_PS: //左高压冲水泵向左耙头冲水
-					try_flow_water(8, FS::PSSea, FS::DHV1, FS::pspump, FS::lt, FS::tol, FS::l2sea, FS::toPS, FS::Port);
-					break;
-				case WaterPumpConditionAction::PS_SB://左高压冲水泵向右耙头冲水
-					try_flow_water(8, FS::PSSea, FS::DHV1, FS::pspump, FS::hbv1, FS::lt, FS::tor, FS::toSB, FS::Starboard);
-					break;
-				case WaterPumpConditionAction::SB_PS: //右高压冲水泵向左耙头冲水
-					try_flow_water(8, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::rt, FS::tol, FS::toPS, FS::Port);
-					break;
-				case WaterPumpConditionAction::SB_SB: //右高压冲水泵向右耙头冲水
-					try_flow_water(8, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::rt, FS::tor, FS::toSB, FS::Starboard);
-					break;
-				case WaterPumpConditionAction::PS_2://左高压冲水泵向双耙头冲水
-					try_flow_water(8, FS::PSSea, FS::DHV1, FS::pspump, FS::lt, FS::tol, FS::l2sea, FS::toPS, FS::Port);
-					try_flow_water(8, FS::PSSea, FS::DHV1, FS::pspump, FS::hbv1, FS::lt, FS::tor, FS::toSB, FS::Starboard);
-					break;
-				case WaterPumpConditionAction::SB_2://右高压冲水泵向双耙头冲水
-					try_flow_water(8, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::rt, FS::tol, FS::toPS, FS::Port);
-					try_flow_water(8, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::rt, FS::tor, FS::toSB, FS::Starboard);
-					break;
-				case WaterPumpConditionAction::S2_PS://左右高压冲水泵串联向左耙头冲水
-					try_flow_water(7, FS::lTower, FS::pspump, FS::lt, FS::tol, FS::l2sea, FS::toPS, FS::Port);
-					try_flow_water(6, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::towermid, FS::lTower);
-					break;
-				case WaterPumpConditionAction::S2_SB://左右高压冲水泵串联向右耙头冲水
-					//try_flow_water(6,  FS::lTower, FS::towermid, FS::rt, FS::tor, FS::r2sea, FS::Starboard);
-					try_flow_water(12, FS::SBSea, FS::SBPump, FS::rTower, FS::towermid, FS::lTower, FS::PSPump, FS::hbv1, FS::lt, FS::tor, FS::r2sea,FS::toSB, FS::Starboard);
-					break;
-				case WaterPumpConditionAction::I2_2://左右高压冲水泵分开向双耙头冲水
-					try_flow_water(8, FS::PSSea, FS::DHV1, FS::pspump, FS::lt, FS::tol, FS::l2sea, FS::toPS, FS::Port);
-					try_flow_water(8, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::rt, FS::tor, FS::toSB, FS::Starboard);
-					break;
-				case WaterPumpConditionAction::PS_H://左高压冲水泵向泥舱冲水
-					try_flow_water(9, FS::PSSea, FS::DHV1, FS::pspump, FS::lt, FS::tol, FS::l2sea, FS::HBV5, FS::SBV5,FS::HBV15);
-					break;
-				case WaterPumpConditionAction::SB_H://右高压冲水泵向泥舱冲水
-					try_flow_water(10, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::rt, FS::tor, FS::r2sea, FS::HBV6,FS::SBV5,FS::HBV15);
-					break;
-				case WaterPumpConditionAction::P2_H://左右高压冲水泵并联向泥舱冲水
-					try_flow_water(9, FS::PSSea, FS::DHV1, FS::pspump, FS::lt, FS::tol, FS::l2sea, FS::HBV5, FS::SBV5,FS::HBV15);
-					try_flow_water(9, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::rt, FS::tor,FS::r2sea, FS::HBV6, FS::SBV5);
-					this->station->push_subtrack(FS::rt, FS::lt, water_color);
-					break;
-				case WaterPumpConditionAction::S2_H://左右高压冲水泵串联向泥舱冲水
-					try_flow_water(8,  FS::lTower, FS::pspump, FS::lt, FS::tol, FS::l2sea, FS::HBV5, FS::SBV5, FS::HBV15);
-					try_flow_water(6, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::towermid, FS::lTower);
-					break;
-				default:
-					break;
+			case WarGrey::SCADA::WaterPumpConditionAction::PS_PS: //左高压冲水泵向左耙头冲水
+				try_flow_water(8, FS::PSSea, FS::DHV1, FS::pspump, FS::lt, FS::tol, FS::l2sea, FS::toPS, FS::Port);
+				break;
+			case WaterPumpConditionAction::PS_SB://左高压冲水泵向右耙头冲水
+				try_flow_water(8, FS::PSSea, FS::DHV1, FS::pspump, FS::hbv1, FS::lt, FS::tor, FS::toSB, FS::Starboard);
+				break;
+			case WaterPumpConditionAction::SB_PS: //右高压冲水泵向左耙头冲水
+				try_flow_water(8, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::rt, FS::tol, FS::toPS, FS::Port);
+				break;
+			case WaterPumpConditionAction::SB_SB: //右高压冲水泵向右耙头冲水
+				try_flow_water(8, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::rt, FS::tor, FS::toSB, FS::Starboard);
+				break;
+			case WaterPumpConditionAction::PS_2://左高压冲水泵向双耙头冲水
+				try_flow_water(8, FS::PSSea, FS::DHV1, FS::pspump, FS::lt, FS::tol, FS::l2sea, FS::toPS, FS::Port);
+				try_flow_water(8, FS::PSSea, FS::DHV1, FS::pspump, FS::hbv1, FS::lt, FS::tor, FS::toSB, FS::Starboard);
+				break;
+			case WaterPumpConditionAction::SB_2://右高压冲水泵向双耙头冲水
+				try_flow_water(8, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::rt, FS::tol, FS::toPS, FS::Port);
+				try_flow_water(8, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::rt, FS::tor, FS::toSB, FS::Starboard);
+				break;
+			case WaterPumpConditionAction::S2_PS://左右高压冲水泵串联向左耙头冲水
+				try_flow_water(7, FS::lTower, FS::pspump, FS::lt, FS::tol, FS::l2sea, FS::toPS, FS::Port);
+				try_flow_water(6, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::towermid, FS::lTower);
+				break;
+			case WaterPumpConditionAction::S2_SB://左右高压冲水泵串联向右耙头冲水
+				//try_flow_water(6,  FS::lTower, FS::towermid, FS::rt, FS::tor, FS::r2sea, FS::Starboard);
+				try_flow_water(12, FS::SBSea, FS::SBPump, FS::rTower, FS::towermid, FS::lTower, FS::PSPump, FS::hbv1, FS::lt, FS::tor, FS::r2sea, FS::toSB, FS::Starboard);
+				break;
+			case WaterPumpConditionAction::I2_2://左右高压冲水泵分开向双耙头冲水
+				try_flow_water(8, FS::PSSea, FS::DHV1, FS::pspump, FS::lt, FS::tol, FS::l2sea, FS::toPS, FS::Port);
+				try_flow_water(8, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::rt, FS::tor, FS::toSB, FS::Starboard);
+				break;
+			case WaterPumpConditionAction::PS_H://左高压冲水泵向泥舱冲水
+				try_flow_water(9, FS::PSSea, FS::DHV1, FS::pspump, FS::lt, FS::tol, FS::l2sea, FS::HBV5, FS::SBV5, FS::HBV15);
+				break;
+			case WaterPumpConditionAction::SB_H://右高压冲水泵向泥舱冲水
+				try_flow_water(10, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::rt, FS::tor, FS::r2sea, FS::HBV6, FS::SBV5, FS::HBV15);
+				break;
+			case WaterPumpConditionAction::P2_H://左右高压冲水泵并联向泥舱冲水
+				try_flow_water(9, FS::PSSea, FS::DHV1, FS::pspump, FS::lt, FS::tol, FS::l2sea, FS::HBV5, FS::SBV5, FS::HBV15);
+				try_flow_water(9, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::rt, FS::tor, FS::r2sea, FS::HBV6, FS::SBV5);
+				this->station->push_subtrack(FS::rt, FS::lt, water_color);
+				break;
+			case WaterPumpConditionAction::S2_H://左右高压冲水泵串联向泥舱冲水
+				try_flow_water(8, FS::lTower, FS::pspump, FS::lt, FS::tol, FS::l2sea, FS::HBV5, FS::SBV5, FS::HBV15);
+				try_flow_water(6, FS::SBSea, FS::DHV2, FS::SBPump, FS::rTower, FS::towermid, FS::lTower);
+				break;
+			default:
+				break;
 
 			}
 			for (FS HBV = FS::HBV9; HBV <= FS::HBV15; HBV++) {
@@ -315,6 +314,9 @@ public:
 				this->try_flow_water(HBV, ub, db, water_color);
 			}
 		}
+
+	}
+	void post_read_data(Syslog* logger) override {
 
 		this->master->end_update_sequence();
 		this->master->leave_critical_section();
@@ -852,7 +854,7 @@ private:
 };
 
 FlushsPage::FlushsPage(PLCMaster* plc) : Planet(__MODULE__), device(plc) {
-	//Flush* dashboard = new Flush(this);
+	Flush* dashboard = nullptr;
 
 	//this->dashboard = dashboard;
 
@@ -880,15 +882,14 @@ FlushsPage::FlushsPage(PLCMaster* plc) : Planet(__MODULE__), device(plc) {
 		this->s2_h_op = make_water_pump_condition_menu(WaterPumpConditionAction::S2_H, plc);
 		this->p2_h_op = make_water_pump_condition_menu(WaterPumpConditionAction::P2_H, plc);
 
-		{ // only highlight menu items of these two menu 
-			Flush* dashboard = new Flush(this, this->ps_pump_op, this->sb_pump_op);
 
-			this->dashboard = dashboard;
+		{ // only highlight menu items of these four menus
+			dashboard = new Flush(this, this->ps_pump_op, this->sb_pump_op);
 			this->device->push_confirmation_receiver(dashboard);
 		}
 	}
 	else {
-		this->dashboard = new Flush(this);
+		dashboard = new Flush(this);
 	}
 	{ // load decorators
 		this->grid = new GridDecorator();
@@ -898,6 +899,7 @@ FlushsPage::FlushsPage(PLCMaster* plc) : Planet(__MODULE__), device(plc) {
 #else
 		this->grid->set_active_planet(this);
 #endif
+		this->dashboard = dashboard;
 	}
 }
 
@@ -939,7 +941,7 @@ void FlushsPage::reflow(float width, float height) {
 	}
 }
 
-void FlushsPage::on_timestream(long long timepoint_ms, size_t addr0, size_t addrn, uint8* data, size_t size, Syslog* logger) {
+void FlushsPage::on_timestream(long long timepoint_ms, size_t addr0, size_t addrn, uint8* data, size_t size, uint64 p_type, size_t p_size, Syslog* logger) {
 	auto dashboard = dynamic_cast<Flush*>(this->dashboard);
 
 	if (dashboard != nullptr) {

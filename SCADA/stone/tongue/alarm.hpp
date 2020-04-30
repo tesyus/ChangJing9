@@ -9,6 +9,175 @@ namespace WarGrey::SCADA {
         static Platform::String^ type() { return "alarm"; }
 
     public:
+        static WarGrey::SCADA::Alarms* Alarm262151() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262151); }//左舷弯管紧急停止
+        static WarGrey::SCADA::Alarms* Alarm262159() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262159); }//左舷耙中紧急停止
+        static WarGrey::SCADA::Alarms* Alarm262167() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262167); }//左舷耙头紧急停止
+        static WarGrey::SCADA::Alarms* Alarm262175() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262175); }//右舷弯管紧急停止
+        static WarGrey::SCADA::Alarms* Alarm262183() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262183); }//右舷耙中紧急停止
+        static WarGrey::SCADA::Alarms* Alarm262191() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262191); }//右舷耙头紧急停止
+        static WarGrey::SCADA::Alarms* Alarm262359() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262359); }//液压主系统油箱液位高L1
+        static WarGrey::SCADA::Alarms* Alarm262360() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262360); }//液压主系统油箱液位低L2
+        static WarGrey::SCADA::Alarms* Alarm262361() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262361); }//液压主系统油箱液位过低L3
+        static WarGrey::SCADA::Alarms* Alarm262362() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262362); }//液压主系统油箱油温高T1
+        static WarGrey::SCADA::Alarms* Alarm262363() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262363); }//液压主系统油箱油温低T2
+        static WarGrey::SCADA::Alarms* Alarm262372() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262372); }//耙唇液压系统油箱液位低
+        static WarGrey::SCADA::Alarms* Alarm262373() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262373); }//耙唇液压系统油箱液位过低
+        static WarGrey::SCADA::Alarms* Alarm262374() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262374); }//耙唇液压系统油箱油温高T1
+        static WarGrey::SCADA::Alarms* Alarm262375() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262375); }//耙唇液压系统油箱油温低T2
+        static WarGrey::SCADA::Alarms* Alarm262403() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262403); }//艏吹绞车紧急停止
+        static WarGrey::SCADA::Alarms* Alarm262410() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262410); }//液压油箱加热器故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262414() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262414); }//耙唇油箱加热器故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262418() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262418); }//左舷耙头液压泵A1故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262422() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262422); }//左舷耙中液压泵B1故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262426() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262426); }//左舷耙中液压泵B2故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262430() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262430); }//左舷弯管液压泵C1故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262434() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262434); }//右舷耙头液压泵A2故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262438() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262438); }//右舷耙中液压泵B3故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262442() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262442); }//右舷耙中液压泵B4故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262446() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262446); }//右舷弯管液压泵C2故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262450() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262450); }//蝶阀控制泵D1故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262454() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262454); }//泥门锁紧泵D2故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262458() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262458); }//应急液压泵E故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262462() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262462); }//液压冷却泵F1故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262466() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262466); }//液压冷却泵F2故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262470() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262470); }//左舷耙唇液压泵J故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262474() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262474); }//右舷耙唇液压泵I故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262478() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262478); }//1#闸阀冲洗泵故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262482() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262482); }//2#闸阀冲洗泵故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262492() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262492); }//左舱内泥泵1#封水泵变频器变频器故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262493() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262493); }//左舱内泥泵1#封水泵变频器主电机过载反馈
+        static WarGrey::SCADA::Alarms* Alarm262500() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262500); }//左舱内泥泵2#封水泵变频器变频器故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262501() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262501); }//左舱内泥泵2#封水泵变频器主电机过载反馈
+        static WarGrey::SCADA::Alarms* Alarm262506() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262506); }//左舱内泥泵3#封水泵变频器变频器故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262507() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262507); }//左舱内泥泵3#封水泵变频器主电机过载反馈
+        static WarGrey::SCADA::Alarms* Alarm262513() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262513); }//右舱内泥泵1#封水泵变频器变频器故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262514() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262514); }//右舱内泥泵1#封水泵变频器主电机过载反馈
+        static WarGrey::SCADA::Alarms* Alarm262519() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262519); }//右舱内泥泵2#封水泵变频器变频器故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262520() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262520); }//右舱内泥泵2#封水泵变频器主电机过载反馈
+        static WarGrey::SCADA::Alarms* Alarm262525() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262525); }//右舱内泥泵3#封水泵变频器变频器故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262526() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262526); }//右舱内泥泵3#封水泵变频器主电机过载反馈
+        static WarGrey::SCADA::Alarms* Alarm262529() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262529); }//左舱内泵齿轮箱备用泵故障
+        static WarGrey::SCADA::Alarms* Alarm262530() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262530); }//左舱内泵齿轮箱油位开关
+        static WarGrey::SCADA::Alarms* Alarm262531() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262531); }//左舱内泵齿轮箱流量开关
+        static WarGrey::SCADA::Alarms* Alarm262532() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262532); }//左舱内泵齿轮箱滤器压差75%
+        static WarGrey::SCADA::Alarms* Alarm262535() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262535); }//左舱内泵齿轮箱滤器压差100%
+        static WarGrey::SCADA::Alarms* Alarm262537() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262537); }//右舱内泵齿轮箱备用泵故障
+        static WarGrey::SCADA::Alarms* Alarm262538() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262538); }//右舱内泵齿轮箱油位开关
+        static WarGrey::SCADA::Alarms* Alarm262539() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262539); }//右舱内泵齿轮箱流量开关
+        static WarGrey::SCADA::Alarms* Alarm262540() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262540); }//右舱内泵齿轮箱滤器压差75%
+        static WarGrey::SCADA::Alarms* Alarm262543() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262543); }//右舱内泵齿轮箱滤器压差100%
+        static WarGrey::SCADA::Alarms* Alarm262544() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262544); }//左泥泵变频器应急停止反馈
+        static WarGrey::SCADA::Alarms* Alarm262546() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262546); }//左疏浚驱动设备UPS电池低压
+        static WarGrey::SCADA::Alarms* Alarm262547() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262547); }//左疏浚驱动设备UPSUPS旁路
+        static WarGrey::SCADA::Alarms* Alarm262548() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262548); }//左疏浚驱动设备UPS电池保护
+        static WarGrey::SCADA::Alarms* Alarm262549() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262549); }//左疏浚驱动设备UPS风扇故障
+        static WarGrey::SCADA::Alarms* Alarm262550() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262550); }//左疏浚驱动设备UPS接地故障
+        static WarGrey::SCADA::Alarms* Alarm262551() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262551); }//左疏浚驱动设备UPS主电源故障
+        static WarGrey::SCADA::Alarms* Alarm262552() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262552); }//右泥泵变频器应急停止反馈
+        static WarGrey::SCADA::Alarms* Alarm262554() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262554); }//右疏浚驱动设备UPS电池低压
+        static WarGrey::SCADA::Alarms* Alarm262555() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262555); }//右疏浚驱动设备UPSUPS旁路
+        static WarGrey::SCADA::Alarms* Alarm262556() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262556); }//右疏浚驱动设备UPS电池保护
+        static WarGrey::SCADA::Alarms* Alarm262557() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262557); }//右疏浚驱动设备UPS风扇故障
+        static WarGrey::SCADA::Alarms* Alarm262558() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262558); }//右疏浚驱动设备UPS接地故障
+        static WarGrey::SCADA::Alarms* Alarm262559() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262559); }//右疏浚驱动设备UPS主电源故障
+        static WarGrey::SCADA::Alarms* Alarm262560() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262560); }//左高压冲水泵变频器UPS电源故障
+        static WarGrey::SCADA::Alarms* Alarm262561() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262561); }//左高压冲水泵变频器风扇故障
+        static WarGrey::SCADA::Alarms* Alarm262562() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262562); }//左高压冲水泵变频器应急停止反馈
+        static WarGrey::SCADA::Alarms* Alarm262564() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262564); }//右高压冲水泵变频器UPS电源故障
+        static WarGrey::SCADA::Alarms* Alarm262565() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262565); }//右高压冲水泵变频器风扇故障
+        static WarGrey::SCADA::Alarms* Alarm262566() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262566); }//右高压冲水泵变频器应急停止反馈
+        static WarGrey::SCADA::Alarms* Alarm262572() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262572); }//左舷舱内泥泵轴承润滑单元流量开关
+        static WarGrey::SCADA::Alarms* Alarm262573() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262573); }//左舷舱内泥泵轴承润滑单元滤器指示
+        static WarGrey::SCADA::Alarms* Alarm262574() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262574); }//左舷舱内泥泵轴承润滑单元液位低
+        static WarGrey::SCADA::Alarms* Alarm262580() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262580); }//右舷舱内泥泵轴承润滑单元流量开关
+        static WarGrey::SCADA::Alarms* Alarm262581() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262581); }//右舷舱内泥泵轴承润滑单元滤器指示
+        static WarGrey::SCADA::Alarms* Alarm262582() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262582); }//右舷舱内泥泵轴承润滑单元液位低
+        static WarGrey::SCADA::Alarms* Alarm262595() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262595); }//左舷水下泵1#封水泵故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262599() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262599); }//左舷水下泵2#封水泵故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262601() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262601); }//左舷水下泵系统综合报警
+        static WarGrey::SCADA::Alarms* Alarm262602() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262602); }//左舷水下泵水下电机绕组温度报警
+        static WarGrey::SCADA::Alarms* Alarm262603() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262603); }//左舷水下泵水下电机轴承温度报警
+        static WarGrey::SCADA::Alarms* Alarm262604() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262604); }//左舷水下泵水下电机漏水报警
+        static WarGrey::SCADA::Alarms* Alarm262605() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262605); }//左舷水下泵水下电机压差报警
+        static WarGrey::SCADA::Alarms* Alarm262606() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262606); }//左舷水下泵水下电机润滑系统报警
+        static WarGrey::SCADA::Alarms* Alarm262607() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262607); }//左舷水下泵水下电机控制系统报警
+        static WarGrey::SCADA::Alarms* Alarm262611() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262611); }//右舷水下泵1#封水泵故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262612() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262612); }//右舷水下泵2#封水泵遥控反馈
+        static WarGrey::SCADA::Alarms* Alarm262613() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262613); }//右舷水下泵2#封水泵备妥反馈
+        static WarGrey::SCADA::Alarms* Alarm262615() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262615); }//右舷水下泵2#封水泵故障反馈
+        static WarGrey::SCADA::Alarms* Alarm262617() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262617); }//右舷水下泵系统综合报警
+        static WarGrey::SCADA::Alarms* Alarm262618() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262618); }//右舷水下泵水下电机绕组温度报警
+        static WarGrey::SCADA::Alarms* Alarm262619() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262619); }//右舷水下泵水下电机轴承温度报警
+        static WarGrey::SCADA::Alarms* Alarm262620() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262620); }//右舷水下泵水下电机漏水报警
+        static WarGrey::SCADA::Alarms* Alarm262621() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262621); }//右舷水下泵水下电机压差报警
+        static WarGrey::SCADA::Alarms* Alarm262622() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262622); }//右舷水下泵水下电机润滑系统报警
+        static WarGrey::SCADA::Alarms* Alarm262623() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262623); }//右舷水下泵水下电机控制系统报警
+        static WarGrey::SCADA::Alarms* Alarm262947() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262947); }//左舱内泵功率限制（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262948() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262948); }//左舱内泵急停反馈（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262949() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262949); }//左舱内泵综合报警（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262950() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262950); }//左舱内泵系统故障（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262955() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262955); }//左水下泵功率限制（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262956() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262956); }//左水下泵急停反馈（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262957() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262957); }//左水下泵综合报警（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262958() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262958); }//左水下泵系统故障（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262963() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262963); }//左高压冲水泵功率限制（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262964() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262964); }//左高压冲水泵急停反馈（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262965() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262965); }//左高压冲水泵综合报警（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262966() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262966); }//左高压冲水泵系统故障（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262979() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262979); }//右舱内泵功率限制（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262980() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262980); }//右舱内泵急停反馈（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262981() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262981); }//右舱内泵综合报警（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262982() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262982); }//右舱内泵系统故障（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262987() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262987); }//右水下泵功率限制（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262988() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262988); }//右水下泵急停反馈（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262989() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262989); }//右水下泵综合报警（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262990() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262990); }//右水下泵系统故障（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262995() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262995); }//右高压冲水泵功率限制（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262996() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262996); }//右高压冲水泵急停反馈（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262997() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262997); }//右高压冲水泵综合报警（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm262998() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262998); }//右高压冲水泵系统故障（变频器通讯）
+        static WarGrey::SCADA::Alarms* Alarm13435914() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13435914); }//左高压冲水泵出口阀未打开运行超时报警
+        static WarGrey::SCADA::Alarms* Alarm13435915() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13435915); }//右高压冲水泵出口阀未打开运行超时报警
+        static WarGrey::SCADA::Alarms* Alarm13436689() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436689); }//回油压力小于3bar,所有绞车不能动作
+        static WarGrey::SCADA::Alarms* Alarm13436936() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436936); }//5#站ET200M-艉PLC通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436937() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436937); }//6#站ET200M-艏PLC柜第1屏通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436938() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436938); }//7#站ET200M-艏PLC柜第2屏-1通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436939() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436939); }//8#站ET200M-艏PLC柜第2屏-2通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436940() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436940); }//9#站ET200M-艏PLC柜第3屏通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436941() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436941); }//10#站ET200M-艏PLC柜第4屏-1通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436942() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436942); }//11#站ET200M-艏PLC柜第4屏-2通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436943() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436943); }//12#站ET200M-左疏浚台通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436944() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436944); }//13#站ET201M-右疏浚台通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436945() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436945); }//21#站-左弯管绞车编码器通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436946() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436946); }//22#站-左耙中绞车编码器通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436947() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436947); }//23#站-左耙头绞车编码器通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436948() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436948); }//24#站-右弯管绞车编码器通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436949() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436949); }//25#站-右耙中绞车编码器通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436950() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436950); }//26#站-右耙头绞车编码器通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436951() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436951); }//27#站-PMS DP/DP COUPLER通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436952() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436952); }//31#站-左舱内泵DP/DP COUPLER通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436953() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436953); }//32#站-左高压冲水泵DP/DP COUPLER通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436954() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436954); }//33#站-右舱内泵DP/DP COUPLER通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436955() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436955); }//34#站-右高压冲水泵DP/DP COUPLER通讯故障
+        static WarGrey::SCADA::Alarms* Alarm13436959() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436959); }//PLC电源模块电池故障
+        static WarGrey::SCADA::Alarms* Alarm13436971() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436971); }//左舱内泵齿轮箱温度高报警（>58°）
+        static WarGrey::SCADA::Alarms* Alarm13436972() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436972); }//左舱内泵齿轮箱压力低报警(<0.4bar)
+        static WarGrey::SCADA::Alarms* Alarm13436973() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436973); }//右舱内泵齿轮箱温度高报警（>58°）
+        static WarGrey::SCADA::Alarms* Alarm13436974() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13436974); }//右舱内泵齿轮箱压力低报警(<0.4bar)
+        static WarGrey::SCADA::Alarms* Alarm13437248() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13437248); }//左耙上耙管角度过大报警
+        static WarGrey::SCADA::Alarms* Alarm13437249() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13437249); }//左耙下耙管角度过大报警
+        static WarGrey::SCADA::Alarms* Alarm13437250() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13437250); }//左耙上下耙管夹角角度过大报警
+        static WarGrey::SCADA::Alarms* Alarm13437251() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13437251); }//左耙弯管钢丝绳下放长度过大报警
+        static WarGrey::SCADA::Alarms* Alarm13437252() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13437252); }//右耙上耙管角度过大报警
+        static WarGrey::SCADA::Alarms* Alarm13437253() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13437253); }//右耙下耙管角度过大报警
+        static WarGrey::SCADA::Alarms* Alarm13437254() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13437254); }//右耙上下耙管夹角角度过大报警
+        static WarGrey::SCADA::Alarms* Alarm13437255() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13437255); }//右耙弯管钢丝绳下放长度过大报警
+        static WarGrey::SCADA::Alarms* Alarm13437256() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13437256); }//左耙上下耙管夹角角度过小报警
+        static WarGrey::SCADA::Alarms* Alarm13437257() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13437257); }//右耙上下耙管夹角角度过小报警
+        static WarGrey::SCADA::Alarms* Alarm13437258() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13437258); }//左耙外撇/内撇角度超限报警
+        static WarGrey::SCADA::Alarms* Alarm13437259() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13437259); }//右耙外撇/内撇角度超限报警
+
+        /*
         static WarGrey::SCADA::Alarms* Alarm262359() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262359); }//液压主系统油箱液位高L1
         static WarGrey::SCADA::Alarms* Alarm262360() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262360); }//液压主系统油箱液位低L2
         static WarGrey::SCADA::Alarms* Alarm262361() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262361); }//液压主系统油箱液位过低L3
@@ -314,7 +483,7 @@ namespace WarGrey::SCADA {
         static WarGrey::SCADA::Alarms* Alarm13437253() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13437253); }//右耙下耙管角度过大报警0
         static WarGrey::SCADA::Alarms* Alarm13437254() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13437254); }//右耙上下耙管夹角角度过大报警0
         static WarGrey::SCADA::Alarms* Alarm13437255() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13437255); }//右耙弯管钢丝绳下放长度过大报警0
-
+        */
         /*
         static WarGrey::SCADA::Alarms* PSHopperMaintenance() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262151U); } // PS Hopper/Underwater Converter Mainenance
         static WarGrey::SCADA::Alarms* PSGlandPumpABroken() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(262155U); } // PS Master Gland Pump Broken
@@ -436,9 +605,20 @@ namespace WarGrey::SCADA {
         static WarGrey::SCADA::Alarms* SBDTCableExceed() { return WarGrey::SCADA::Tongue<WarGrey::SCADA::Alarms>::UnsafeTongue(13437175U); } // SB Drag Offset Cable Exceed
         */
     private:
-        static size_t indices_size() { return  305U; }
+        static size_t indices_size() { return  167U; }
         static const unsigned int* indices() {
             static const unsigned int indexes[] = {
+                262151,262159,262167,262175,262183,262191,262359,262360,262361,262362,262363,262372,262373,262374,262375,262403,
+                262410,262414,262418,262422,262426,262430,262434,262438,262442,262446,262450,262454,262458,262462,262466,262470,
+                262474,262478,262482,262492,262493,262500,262501,262506,262507,262513,262514,262519,262520,262525,262526,262529,
+                262530,262531,262532,262535,262537,262538,262539,262540,262543,262544,262546,262547,262548,262549,262550,262551,
+                262552,262554,262555,262556,262557,262558,262559,262560,262561,262562,262564,262565,262566,262572,262573,262574,
+                262580,262581,262582,262595,262599,262601,262602,262603,262604,262605,262606,262607,262611,262612,262613,262615,
+                262617,262618,262619,262620,262621,262622,262623,262947,262948,262949,262950,262955,262956,262957,262958,262963,
+                262964,262965,262966,262979,262980,262981,262982,262987,262988,262989,262990,262995,262996,262997,262998,13435914,
+                13435915,13436689,13436936,13436937,13436938,13436939,13436940,13436941,13436942,13436943,13436944,13436945,13436946,13436947,13436948,13436949,
+                13436950,13436951,13436952,13436953,13436954,13436955,13436959,13436971,13436972,13436973,13436974,13437248,13437249,13437250,13437251,13437252,
+                13437253,13437254,13437255,13437256,13437257,13437258,13437259,
                 /*
                 262151U, 262155U, 262159U, 262163U, 262164U, 262166U, 262167U, 262175U,
                 262179U, 262183U, 262187U, 262188U, 262191U, 262194U, 262198U, 262202U,
@@ -455,6 +635,7 @@ namespace WarGrey::SCADA {
                 13436949U, 13436950U, 13436951U, 13436952U, 13436953U, 13436954U, 13436955U, 13436956U,
                 13436957U, 13436958U, 13436959U, 13436961U, 13436962U, 13436963U, 13437168U, 13437169U,
                 13437170U, 13437171U, 13437172U, 13437173U, 13437174U, 13437175U*/
+                /*
                 262359,262360,262361,262362,262363,262372,262373,262374,262375,262410,262414,262418,262422,262426,262430,262434,
                 262438,262442,262446,262450,262454,262458,262462,262466,262470,262474,262478,262482,262492,262493,262500,262501,
                 262506,262507,262513,262514,262519,262520,262525,262526,262529,262530,262531,262532,262535,262537,262538,262539,
@@ -474,7 +655,8 @@ namespace WarGrey::SCADA {
                 13437156,13437157,13437158,13437159,13437160,13437161,13437162,13437163,13437164,13437165,13437166,13437167,13437168,13437169,13437176,13437177,
                 13437178,13437179,13437180,13437181,13437184,13437185,13437186,13437188,13437189,13437192,13437193,13437194,13437195,13437196,13437197,13437198,
                 13437199,13437200,13437201,13437202,13437203,13437204,13437205,13437206,13437207,13437248,13437249,13437250,13437251,13437252,13437253,13437254,
-                13437255
+                13437255*/
+
             };
 
             return indexes;

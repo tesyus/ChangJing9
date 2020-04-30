@@ -144,8 +144,17 @@
   <data name="Brightness80" xml:space="preserve">
     <value>80%</value>
   </data>
+  <data name="Brightnessd" xml:space="preserve">
+    <value>🔌 Global</value>
+  </data>
   <data name="Debug" xml:space="preserve">
     <value>Debug</value>
+  </data>
+  <data name="DTPM_Off" xml:space="preserve">
+    <value>DTPM</value>
+  </data>
+  <data name="DTPM_On" xml:space="preserve">
+    <value>DTPM</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
     <value>💻</value>
@@ -161,6 +170,12 @@
   </data>
   <data name="Root" xml:space="preserve">
     <value>Root</value>
+  </data>
+  <data name="SCADA_Off" xml:space="preserve">
+    <value>SCADA</value>
+  </data>
+  <data name="SCADA_On" xml:space="preserve">
+    <value>SCADA</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>⚙️</value>

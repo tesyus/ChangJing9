@@ -37,6 +37,7 @@
 #include "iotables/do_devices.hpp"
 
 using namespace WarGrey::SCADA;
+using namespace WarGrey::GYDM;
 
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::Foundation::Numerics;
@@ -434,14 +435,13 @@ public:
 			this->flows[HS::C2]->set_value(DBD(DB204, pump_C2_flow), sba);
 		}
 	}
+	void on_signals_updated(long long timepoint_ms, Syslog* logger) override {
 
-	void post_read_data(Syslog* logger) override {
-		
 		{ // flow oil
 			HS ps_path[] = { HS::lt, HS::tl, HS::cl, HS::Master };
 			HS sb_path[] = { HS::rt, HS::tr, HS::cr, HS::Master };
 			HS mt_path[] = { HS::te,HS::master };
-			HS temp_path[] = {HS::toS7, HS::S7 };
+			HS temp_path[] = { HS::toS7, HS::S7 };
 
 			this->station->push_subtrack(HS::Master, HS::S2, oil_color);
 			this->station->push_subtrack(HS::Master, HS::S1, oil_color);
@@ -461,7 +461,7 @@ public:
 
 			this->try_flow_oil(HS::S24, HS::C2, HS::c2, sb_path, oil_color);
 			this->try_flow_oil(HS::S22, HS::B3, HS::b3, sb_path, oil_color);
-			this->try_flow_oil(HS::S23, HS::B4, HS::b4 ,sb_path, oil_color);
+			this->try_flow_oil(HS::S23, HS::B4, HS::b4, sb_path, oil_color);
 			this->try_flow_oil(HS::S21, HS::A2, HS::a2, sb_path, oil_color);
 
 			this->try_flow_oil(HS::S3, HS::E, HS::e, mt_path, oil_color);
@@ -499,8 +499,12 @@ public:
 			if (this->pump_open(HS::J)) {
 				this->station->push_subtrack(HS::Visor, HS::j, oil_color);
 			}
-			
+
 		}
+	}
+
+	void post_read_data(Syslog* logger) override {
+		
 
 		this->master->end_update_sequence();
 		this->master->leave_critical_section();
@@ -1114,7 +1118,7 @@ void HydraulicsPage::reflow(float width, float height) {
 	}
 }
 
-void HydraulicsPage::on_timestream(long long timepoint_ms, size_t addr0, size_t addrn, uint8* data, size_t size, Syslog* logger) {
+void HydraulicsPage::on_timestream(long long timepoint_ms, size_t addr0, size_t addrn, uint8* data, size_t size, uint64 p_type, size_t p_size, Syslog* logger) {
 	auto dashboard = dynamic_cast<Hydraulics*>(this->dashboard);
 
 	if (dashboard != nullptr) {

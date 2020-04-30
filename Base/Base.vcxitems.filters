@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)application.hxx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)backtask.cxx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)diagnostics.cxx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)dirotation.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)hamburger.cxx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)module.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)system.cxx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)tongue.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)win32.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)network\stream.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)network\netexn.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)network\tcp.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)taskexn.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)datum\path.cpp">
+      <Filter>datum</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)datum\string.cpp">
+      <Filter>datum</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)datum\time.cpp">
+      <Filter>datum</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)datum\bytes.cpp">
+      <Filter>datum</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)datum\file.cpp">
+      <Filter>datum</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)preference.cxx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)network\socket.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)network\hostname.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)diagnostics.hxx" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)dirotation.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)hamburger.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)module.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)system.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tongue.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)win32.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)taskexn.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)network\stream.hpp">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)network\netexn.hpp">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)network\tcp.hpp">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\path.hpp">
+      <Filter>datum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\string.hpp">
+      <Filter>datum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\time.hpp">
+      <Filter>datum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\flonum.hpp">
+      <Filter>datum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)backtask.hxx" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\box.hpp">
+      <Filter>datum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\class.hpp">
+      <Filter>datum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\credit.hpp">
+      <Filter>datum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\enum.hpp">
+      <Filter>datum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\slot.hpp">
+      <Filter>datum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\object.hpp">
+      <Filter>datum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\fixnum.hpp">
+      <Filter>datum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\bytes.hpp">
+      <Filter>datum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\file.hpp">
+      <Filter>datum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\char.hpp">
+      <Filter>datum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)preference.hxx" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)filesystem\msappdata.hxx">
+      <Filter>filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)filesystem\msappdatalogue.hxx">
+      <Filter>filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)filesystem\msappx.hxx">
+      <Filter>filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)network\socket.hpp">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)network\udp.hpp">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)network\hostname.hpp">
+      <Filter>network</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="network">
+      <UniqueIdentifier>{392465bd-38bf-40ea-98d4-29bd893354b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="datum">
+      <UniqueIdentifier>{7471e8ef-9902-4589-96ea-34b78a7025b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="filesystem">
+      <UniqueIdentifier>{a7aa9310-c98d-4688-998e-977f0cb89aeb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

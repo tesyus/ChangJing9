@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{9d38ad51-fee8-4303-8b0d-833bbcc93b58}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)application.hxx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)backtask.cxx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)datum\bytes.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)datum\file.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)diagnostics.cxx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)dirotation.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)hamburger.cxx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)module.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)network\hostname.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)network\netexn.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)network\socket.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)network\stream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)network\tcp.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)datum\path.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)datum\string.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)preference.cxx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)system.cxx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)taskexn.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)datum\time.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)tongue.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)win32.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)backtask.hxx" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\box.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\bytes.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\char.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\credit.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\file.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\fixnum.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\flonum.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)diagnostics.hxx" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\enum.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)dirotation.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)filesystem\msappdata.hxx" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)filesystem\msappdatalogue.hxx" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)filesystem\msappx.hxx" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)hamburger.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)module.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)network\hostname.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)network\netexn.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)network\socket.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)network\stream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)network\tcp.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\object.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\path.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\slot.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\string.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\class.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)network\udp.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)preference.hxx" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)system.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)taskexn.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\time.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tongue.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)win32.hpp" />
+  </ItemGroup>
+</Project>

@@ -17,6 +17,7 @@
 #include "module.hpp"
 
 using namespace WarGrey::SCADA;
+using namespace WarGrey::GYDM;
 
 using namespace Windows::Foundation;
 using namespace Windows::Storage;

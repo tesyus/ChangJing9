@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{4B01A7AC-15A7-4A75-8793-14B678FD03F5}</ProjectGuid>
+    <ProjectGuid>{6a1ce595-6f91-457d-9392-bb67c87edfc7}</ProjectGuid>
     <RootNamespace>DTPM</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
@@ -100,12 +100,15 @@
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
-    <Import Project="..\Auxiliary\Auxiliary.vcxitems" Label="Shared" />
     <Import Project="..\BigBang\BigBang.vcxitems" Label="Shared" />
     <Import Project="..\Graphics\graphics.vcxitems" Label="Shared" />
     <Import Project="..\Configuration\Configuration.vcxitems" Label="Shared" />
     <Import Project="..\WormHole\WormHole.vcxitems" Label="Shared" />
     <Import Project="..\NanoBoard\NanoBoard.vcxitems" Label="Shared" />
+    <Import Project="..\ENChart\ENChart.vcxitems" Label="Shared" />
+    <Import Project="..\Jargon\Jargon.vcxitems" Label="Shared" />
+    <Import Project="..\Base\Base.vcxitems" Label="Shared" />
+    <Import Project="..\Schema\Schema.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -127,8 +130,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <PackageCertificateKeyFile>F:\CH6000m3\DTPM\DTPM_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>9D9A882039213370798E3ACE5CE4E5F51F8DF613</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>DTPM_TemporaryKey.pfx</PackageCertificateKeyFile>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Never</AppxBundle>
@@ -209,6 +211,7 @@
     </AppxManifest>
     <None Include="DTPM_TemporaryKey.pfx" />
     <None Include="packages.config" />
+    <None Include="schema\track.dao.rkt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\DredgerConstruction_icon.png" />
@@ -264,39 +267,59 @@
     <Image Include="stone\about.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="metrics.cpp" />
+    <ClCompile Include="metrics\dredge.cpp" />
+    <ClCompile Include="metrics\times.cpp" />
     <ClCompile Include="monitor.cpp" />
     <ClCompile Include="DTPM.cxx" />
     <ClCompile Include="frame\drags.cpp" />
-    <ClCompile Include="frame\metrics.cpp" />
     <ClCompile Include="frame\statusbar.cpp" />
-    <ClCompile Include="frame\times.cpp" />
+    <ClCompile Include="schema\datalet\track_ds.cpp" />
+    <ClCompile Include="schema\track.cpp" />
     <ClCompile Include="widget.cpp" />
     <ClCompile Include="widget\settings.cpp" />
     <ClCompile Include="widget\timestream.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="metrics.hpp" />
+    <ClInclude Include="metrics\dredge.hpp" />
+    <ClInclude Include="metrics\times.hpp" />
     <ClInclude Include="monitor.hpp" />
     <ClInclude Include="frame\drags.hpp" />
-    <ClInclude Include="frame\metrics.hpp" />
     <ClInclude Include="frame\statusbar.hpp" />
-    <ClInclude Include="frame\times.hpp" />
+    <ClInclude Include="schema\datalet\track_ds.hpp" />
+    <ClInclude Include="schema\track.hpp" />
     <ClInclude Include="widget.hxx" />
     <ClInclude Include="widget\settings.hpp" />
     <ClInclude Include="widget\timestream.hpp" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="stone\tongue\en-US\drags.resw" />
-    <PRIResource Include="stone\tongue\en-US\metrics.resw" />
+    <PRIResource Include="stone\tongue\en-US\dredge.resw" />
     <PRIResource Include="stone\tongue\en-US\statusbar.resw" />
     <PRIResource Include="stone\tongue\en-US\times.resw" />
     <PRIResource Include="stone\tongue\en-US\tongue.resw" />
     <PRIResource Include="stone\tongue\en-US\widget.resw" />
     <PRIResource Include="stone\tongue\zh-CN\drags.resw" />
-    <PRIResource Include="stone\tongue\zh-CN\metrics.resw" />
+    <PRIResource Include="stone\tongue\zh-CN\dredge.resw" />
     <PRIResource Include="stone\tongue\zh-CN\statusbar.resw" />
     <PRIResource Include="stone\tongue\zh-CN\times.resw" />
     <PRIResource Include="stone\tongue\zh-CN\tongue.resw" />
     <PRIResource Include="stone\tongue\zh-CN\widget.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Update="F:\CH6000m3\NanoBoard\stone\tongue\en-US\dredgetrack.resw">
+      <FileType>Document</FileType>
+    </PRIResource>
+    <PRIResource Update="F:\CH6000m3\NanoBoard\stone\tongue\en-US\profile.resw">
+      <FileType>Document</FileType>
+    </PRIResource>
+    <PRIResource Update="F:\CH6000m3\NanoBoard\stone\tongue\zh-CN\dredgetrack.resw">
+      <FileType>Document</FileType>
+    </PRIResource>
+    <PRIResource Update="F:\CH6000m3\NanoBoard\stone\tongue\zh-CN\profile.resw">
+      <FileType>Document</FileType>
+    </PRIResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

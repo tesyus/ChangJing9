@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="asn">
+      <UniqueIdentifier>{1afcbbd9-c7e2-498d-8299-7c50ad78ad95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asn\der">
+      <UniqueIdentifier>{aad430da-dbf5-4d70-9178-92f459180bfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="datum">
+      <UniqueIdentifier>{9178e259-6bfc-46ea-956b-e0ce4a8a0184}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="peer">
+      <UniqueIdentifier>{ed4450f5-bd1f-4dd4-966b-bd7faced7b84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="checksum">
+      <UniqueIdentifier>{953db432-1d94-420d-a8f0-6c081798d670}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="syslog">
+      <UniqueIdentifier>{6644b39f-36ec-49df-85bf-e87972013347}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="syslog\receiver">
+      <UniqueIdentifier>{ccb01511-2a5e-49d6-8bf1-878425e4e26b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)asn\der\base.cpp">
+      <Filter>asn\der</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)asn\der\identifier.cpp">
+      <Filter>asn\der</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)asn\der\sequence.cpp">
+      <Filter>asn\der</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)datum\natural.cpp">
+      <Filter>datum</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)peer\slang.cpp">
+      <Filter>peer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)checksum\crc32.cpp">
+      <Filter>checksum</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)checksum\ipv4.cpp">
+      <Filter>checksum</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)syslog.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)syslog\logging.cpp">
+      <Filter>syslog</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)syslog\receiver\vstudio.cpp">
+      <Filter>syslog\receiver</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)syslog\metainfo.cpp">
+      <Filter>syslog</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)syslog\receiver\windows.cpp">
+      <Filter>syslog\receiver</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)syslog\receiver\rsyslog.cpp">
+      <Filter>syslog\receiver</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)asn\der\base.hpp">
+      <Filter>asn\der</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)asn\der\enumerated.hpp">
+      <Filter>asn\der</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)asn\der\identifier.hpp">
+      <Filter>asn\der</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)asn\der\sequence.hpp">
+      <Filter>asn\der</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)asn\der.hpp">
+      <Filter>asn</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)datum\natural.hpp">
+      <Filter>datum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)peer\slang.hpp">
+      <Filter>peer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)checksum\crc32.hpp">
+      <Filter>checksum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)checksum\ipv4.hpp">
+      <Filter>checksum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)syslog.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)syslog\logging.hpp">
+      <Filter>syslog</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)syslog\receiver\vstudio.hpp">
+      <Filter>syslog\receiver</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)syslog\metainfo.hpp">
+      <Filter>syslog</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)syslog\receiver\windows.hpp">
+      <Filter>syslog\receiver</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)syslog\receiver\rsyslog.hpp">
+      <Filter>syslog\receiver</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

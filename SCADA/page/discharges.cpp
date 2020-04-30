@@ -43,8 +43,11 @@
 
 #include "decorator/vessel.hpp"
 #include <iotables\ao_pumps.hpp>
+#include <iotables\di_menu.hpp>
+using namespace Windows::UI::Xaml::Controls;
 
 using namespace WarGrey::SCADA;
+using namespace WarGrey::GYDM;
 
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Numerics;
@@ -123,7 +126,10 @@ static uint16 DO_motor_valve_action(MotorValveAction cmd, GateValvelet* valve) {
 /*************************************************************************************************/
 private class Rainbows final : public PLCConfirmation {
 public:
-	Rainbows(DischargesPage* master) : master(master) {
+	Rainbows(DischargesPage* master,
+		MenuFlyout^ ps_hmenu = nullptr, 
+		MenuFlyout^ sb_hmenu = nullptr
+		) : master(master), ps_hopper_menu(ps_hmenu), sb_hopper_menu(sb_hmenu) {
 		this->setting_style = make_highlight_dimension_style(large_metrics_font_size, 6U, 0, Colours::GhostWhite, Colours::RoyalBlue);
 	}
 
@@ -266,26 +272,42 @@ public:
 
 		this->door_paired_color = (DBX(DB205, upper_door_paired - 1U) ? door_pairing_color : this->relationship_color);
 		CurrentWorkingMode = DI_getvalveworkingmode(DB205);
+		ui_thread_run_async([=]() {
+			if (this->ps_hopper_menu != nullptr) {
+				DI_condition_menu(this->ps_hopper_menu, PSHopperPumpDischargeAction::PSShoring, DB205, PSHPumpBowblow);
+				DI_condition_menu(this->ps_hopper_menu, PSHopperPumpDischargeAction::PSRainbowing, DB205, PSHPumpStemSpray);
+				DI_condition_menu(this->ps_hopper_menu, PSHopperPumpDischargeAction::BothShoring, DB205, PSSBHPumpSeriesBowblow);
+				DI_condition_menu(this->ps_hopper_menu, PSHopperPumpDischargeAction::BothRainbowing, DB205, PSSBHPumpSeriesStemSpray);
+			}
+
+			if (this->sb_hopper_menu != nullptr) {
+				DI_condition_menu(this->sb_hopper_menu, SBHopperPumpDischargeAction::SBShoring, DB205, SBHPumpBowblow);
+				DI_condition_menu(this->sb_hopper_menu, SBHopperPumpDischargeAction::SBRainbowing, DB205, SBHPumpStemSpray);
+				DI_condition_menu(this->sb_hopper_menu, SBHopperPumpDischargeAction::BothShoring, DB205, PSSBHPumpSeriesBowblow);
+				DI_condition_menu(this->sb_hopper_menu, SBHopperPumpDischargeAction::BothRainbowing, DB205, PSSBHPumpSeriesStemSpray);
+			}
+			});
+
 	}
 
 	void on_forat(long long timepoint_ms, const uint8* DB20, size_t count, Syslog* logger) override {
 		this->pumps_rpm[RS::PSHPump]->set_value(DBD(DB20, 650U), GraphletAnchor::LB);//左舱内
 		this->pumps_rpm[RS::SBHPump]->set_value(DBD(DB20, 662U), GraphletAnchor::LB);//右舱内
 	}
-	void post_read_data(Syslog* logger) override {
-		
+	void on_signals_updated(long long timepoint_ms, Syslog* logger) override {
+
 		{
 			switch (CurrentWorkingMode) {
 			case ValvesConditionAction::PSHPumpBowblow://左舱内泵艏吹
-				try_flow_water(9, RS::HV09,RS::h0708, RS::HV03, RS::PSHPump, RS::HV23, RS::to2526, RS::h26,RS::HV26, RS::shd_joint);
+				try_flow_water(9, RS::HV09, RS::h0708, RS::HV03, RS::PSHPump, RS::HV23, RS::to2526, RS::h26, RS::HV26, RS::shd_joint);
 
 				break;
 			case ValvesConditionAction::SBHPumpBowblow://右舱内泵艏吹
-				try_flow_water(10, RS::HV09, RS::h0708, RS::HV04, RS::SBHPump, RS::h10,RS::HV24, RS::to2526, RS::h26, RS::HV26, RS::shd_joint);
+				try_flow_water(10, RS::HV09, RS::h0708, RS::HV04, RS::SBHPump, RS::h10, RS::HV24, RS::to2526, RS::h26, RS::HV26, RS::shd_joint);
 				break;
 			case ValvesConditionAction::PSSBHPumpSeriesBowblow://左右泥泵串联艏吹
 				try_flow_water(11, RS::HV09, RS::h0708, RS::HV08, RS::SBHPump, RS::h10, RS::jump0802right, RS::jump0802left, RS::jump1314down, RS::jump1314up, RS::HV13, RS::jump0107up);
-				try_flow_water(7, RS::jump0107down ,RS::HV03, RS::PSHPump, RS::HV23, RS::to2526, RS::h26, RS::shd_joint);
+				try_flow_water(7, RS::jump0107down, RS::HV03, RS::PSHPump, RS::HV23, RS::to2526, RS::h26, RS::shd_joint);
 				this->nintercs[RS::jump1314]->set_color(water_color);
 				this->nintercs[RS::jump0107]->set_color(water_color);
 				break;
@@ -298,13 +320,16 @@ public:
 				break;
 			case ValvesConditionAction::PSSBHPumpSeriesStemSpray://左右泥泵串联艏喷
 
-				try_flow_water(12, RS::HV09, RS::h0708, RS::HV08, RS::SBHPump, RS::h10, RS::jump0802right, RS::jump0802left,RS::albr, RS::jump1314down, RS::jump1314up, RS::HV13, RS::jump0107up);
+				try_flow_water(12, RS::HV09, RS::h0708, RS::HV08, RS::SBHPump, RS::h10, RS::jump0802right, RS::jump0802left, RS::albr, RS::jump1314down, RS::jump1314up, RS::HV13, RS::jump0107up);
 				try_flow_water(7, RS::jump0107down, RS::HV03, RS::PSHPump, RS::HV23, RS::to2526, RS::h25, RS::h25end);
 				this->nintercs[RS::jump1314]->set_color(water_color);
 				this->nintercs[RS::jump0107]->set_color(water_color);
 				break;
 			}
 		}
+	}
+	void post_read_data(Syslog* logger) override {
+		
 		this->master->end_update_sequence();
 		this->master->leave_critical_section();
 	}
@@ -996,9 +1021,13 @@ private:
 	DimensionStyle percentage_style;
 	DimensionStyle metrics_style;
 	DimensionStyle setting_style;
+	MenuFlyout^ PSHopper_menu;
+	MenuFlyout^ SBHopper_menu;
 
 private:
 	DischargesPage* master;
+	MenuFlyout^ ps_hopper_menu;
+	MenuFlyout^ sb_hopper_menu;
 };
 
 private class RainbowsDecorator : public TVesselDecorator<Rainbows, RS> {
@@ -1030,9 +1059,8 @@ public:
 
 /*************************************************************************************************/
 DischargesPage::DischargesPage(PLCMaster* plc) : Planet(__MODULE__), device(plc) {
-	Rainbows* dashboard = new Rainbows(this);
+	Rainbows* dashboard = nullptr;
 
-	this->dashboard = dashboard;
 
 	if (this->device != nullptr) {
 		this->diagnostics = new HopperPumpDiagnostics(plc);
@@ -1049,8 +1077,14 @@ DischargesPage::DischargesPage(PLCMaster* plc) : Planet(__MODULE__), device(plc)
 		this->sb_hopper_op = make_sb_hopper_pump_discharge_menu(plc);
 		this->gdischarge_op = make_discharge_condition_menu(plc);
 
-		this->device->push_confirmation_receiver(dashboard);
+		{ // only highlight menu items of these four menus
+			dashboard = new Rainbows(this, this->ps_hopper_op, this->sb_hopper_op);
+			this->device->push_confirmation_receiver(dashboard);
+		}
 	}
+	else {
+		dashboard = new Rainbows(this);
+}
 
 	{ // load decorators
 		this->grid = new GridDecorator();
@@ -1062,6 +1096,7 @@ DischargesPage::DischargesPage(PLCMaster* plc) : Planet(__MODULE__), device(plc)
 #endif
 
 		this->push_decorator(new RainbowsDecorator(dashboard));
+		this->dashboard = dashboard;
 	}
 }
 
@@ -1103,7 +1138,7 @@ void DischargesPage::reflow(float width, float height) {
 	}
 }
 
-void DischargesPage::on_timestream(long long timepoint_ms, size_t addr0, size_t addrn, uint8* data, size_t size, Syslog* logger) {
+void DischargesPage::on_timestream(long long timepoint_ms, size_t addr0, size_t addrn, uint8* data, size_t size, uint64 p_type, size_t p_size, Syslog* logger) {
 	auto dashboard = dynamic_cast<Rainbows*>(this->dashboard);
 
 	if (dashboard != nullptr) {

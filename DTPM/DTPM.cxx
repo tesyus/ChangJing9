@@ -8,11 +8,13 @@
 #include "planet.hpp"
 #include "timer.hxx"
 
+#include "compass.hpp"
+#include "transponder.hpp"
 #include "moxa.hpp"
-#include "plc.hpp"
 
 using namespace WarGrey::SCADA;
 using namespace WarGrey::DTPM;
+using namespace WarGrey::GYDM;
 
 using namespace Windows::ApplicationModel;
 using namespace Windows::ApplicationModel::Activation;
@@ -34,11 +36,19 @@ using namespace Microsoft::Graphics::Canvas::UI;
 private ref class DredgerUniverse : public UniverseDisplay {
 public:
 	virtual ~DredgerUniverse() {
-		if (plc != nullptr) {
-			delete plc;
+		if (this->plc != nullptr) {
+			delete this->plc;
 		}
 
-		moxa_tcp_teardown();
+		if (this->compass != nullptr) {
+			delete this->compass;
+		}
+
+		if (this->transponder != nullptr) {
+			delete this->transponder;
+		}
+
+		moxa_tcp_teardown(); // also destroy `this->ais`;
 	}
 
 internal:
@@ -46,33 +56,40 @@ internal:
 		: UniverseDisplay(make_system_logger(default_logging_level, name), name, navigator, heads_up) {
 		Syslog* plc_logger = make_system_logger(default_plc_master_logging_level, "PLC");
 		
-		this->plc = new PLCMaster(plc_logger, plc_hostname, dtpm_plc_master_port, plc_master_suicide_timeout);
 		moxa_tcp_setup();
 
+		this->plc = new PLCMaster(plc_logger, plc_hostname, dtpm_plc_master_port, plc_master_suicide_timeout);
+		this->compass = new Compass();
+		this->transponder = new Transponder();
+
 		system_set_subnet_prefix(system_subnet_prefix);
-		
+		ui_thread_initialize();
 	}
 
 protected:
 	void construct(CanvasCreateResourcesReason reason) override {
-		this->push_planet(new DTPMonitor(this->plc));
+		this->push_planet(new DTPMonitor(this->compass, this->transponder, this->plc));
 	}
 
 internal:
+	Compass* compass;
+	Transponder* transponder;
 	PLCMaster* plc;
 };
 
 /*************************************************************************************************/
-private ref class Ch6000m3 sealed : public SplitView {
+private ref class CH13800m3 sealed : public SplitView {
 public:
-	Ch6000m3() : SplitView() {
+	CH13800m3() : SplitView() {
 		this->Margin = ThicknessHelper::FromUniformLength(0.0);
 		this->PanePlacement = SplitViewPanePlacement::Left;
 		this->DisplayMode = SplitViewDisplayMode::Overlay;
 		this->IsPaneOpen = false;
 
-		this->PointerMoved += ref new PointerEventHandler(this, &Ch6000m3::on_pointer_moved);
-		this->PointerReleased += ref new PointerEventHandler(this, &Ch6000m3::on_pointer_released);
+		this->PointerMoved += ref new PointerEventHandler(this, &CH13800m3::on_pointer_moved);
+		this->PointerReleased += ref new PointerEventHandler(this, &CH13800m3::on_pointer_released);
+
+		this->SizeChanged += ref new SizeChangedEventHandler(this, &CH13800m3::on_size_changed);
 	}
 
 public:
@@ -93,12 +110,9 @@ public:
 		{ // construct the functional panel
 			StackPanel^ panel = ref new StackPanel();
 			
-			this->universe->navigator->min_height(region.Height * 0.85F);
-			
 			this->widget = ref new UniverseWidget(this, this->universe, this->universe->plc);
 			this->widget->min_width = this->universe->navigator->min_width();
-			this->widget->min_height = region.Height - this->universe->navigator->min_height();
-
+			
 			panel->Orientation = ::Orientation::Vertical;
 			panel->HorizontalAlignment = ::HorizontalAlignment::Stretch;
 			panel->VerticalAlignment = ::VerticalAlignment::Stretch;
@@ -119,6 +133,14 @@ public:
 	void on_suspending(SuspendingEventArgs^ args) {}
 	void on_resuming() {}
 	
+private:
+	void on_size_changed(Platform::Object^ sender, SizeChangedEventArgs^ args) {
+		float widget_height = widget_evaluate_height();
+
+		this->universe->navigator->min_height(args->NewSize.Height - widget_height);
+		this->widget->min_height = widget_height;
+	}
+
 private:
 	void on_pointer_moved(Platform::Object^ sender, PointerRoutedEventArgs^ args) {
 		auto pt = args->GetCurrentPoint(this);
@@ -154,5 +176,5 @@ private:
 };
 
 int main(Platform::Array<Platform::String^>^ args) {
-	return launch_universal_windows_application<Ch6000m3>(default_logging_level, remote_test_server);
+	return launch_universal_windows_application<CH13800m3>(default_logging_level, rsyslog_host, rsyslog_prot);
 }

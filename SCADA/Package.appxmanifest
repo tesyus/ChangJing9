@@ -1,9 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" IgnorableNamespaces="uap mp iot rescap">
-  <Identity Name="ch13800m3" Publisher="CN=Tesyus@mrit" Version="1.0.578.0" />
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+         xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+         xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+         xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
+         IgnorableNamespaces="uap mp iot">
+  <Identity Name="CH13800m3" Publisher="CN=Tesyus@mrit" Version="1.0.479.0" />
   <mp:PhoneIdentity PhoneProductId="060621da-8c22-4218-bd3c-1c5b6ca2db44" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>ch13800m3</DisplayName>
+    <DisplayName>CH13800m3</DisplayName>
     <PublisherDisplayName>镇江明润信息科技有限公司</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -28,8 +32,5 @@
     <Capability Name="privateNetworkClientServer" />
     <Capability Name="internetClientServer" />
     <uap:Capability Name="picturesLibrary" />
-    <rescap:Capability Name="extendedExecutionUnconstrained" />
-    <rescap:Capability Name="extendedBackgroundTaskTime" />
-    <rescap:Capability Name="broadFileSystemAccess" />
   </Capabilities>
 </Package>

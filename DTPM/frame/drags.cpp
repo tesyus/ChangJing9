@@ -20,6 +20,7 @@
 
 using namespace WarGrey::SCADA;
 using namespace WarGrey::DTPM;
+using namespace WarGrey::GYDM;
 
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Numerics;
@@ -246,7 +247,7 @@ void DragsFrame::reflow(float width, float height) {
 	}
 }
 
-void DragsFrame::on_timestream(long long timepoint_ms, size_t addr0, size_t addrn, uint8* data, size_t size, Syslog* logger) {
+void DragsFrame::on_timestream(long long timepoint_ms, size_t addr0, size_t addrn, uint8* data, size_t size, uint64 p_type, size_t p_size, Syslog* logger) {
 	auto db = dynamic_cast<Drags*>(this->dashboard);
 
 	if (db != nullptr) {

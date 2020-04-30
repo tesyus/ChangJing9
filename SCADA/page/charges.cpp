@@ -36,11 +36,13 @@
 
 #include "decorator/vessel.hpp"
 #include <iotables\ao_pumps.hpp>
+#include <iotables\di_menu.hpp>
 using namespace Windows::UI::Xaml::Controls;
 
 using namespace Windows::System;
 
 using namespace WarGrey::SCADA;
+using namespace WarGrey::GYDM;
 
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Numerics;
@@ -109,7 +111,16 @@ static uint16 DO_gate_valve_action(GateValveAction cmd, GateValvelet* valve) {
 /*************************************************************************************************/
 private class Vessel final : public PLCConfirmation {
 public:
-	Vessel(ChargesPage* master) : master(master) {
+	Vessel(ChargesPage* master, 
+		MenuFlyout^ PSHopper_menu = nullptr,
+		MenuFlyout^ SBHopper_menu = nullptr,
+		MenuFlyout^ PSUnderWater_menu = nullptr,
+		MenuFlyout^ SBUnderWater_menu = nullptr
+	) : master(master), 
+		PSHopper_menu(PSHopper_menu),
+		SBHopper_menu(SBHopper_menu),
+		PSUnderWater_menu(PSUnderWater_menu),
+		SBUnderWater_menu(SBUnderWater_menu) {
 		this->setting_style = make_highlight_dimension_style(large_metrics_font_size, 6U, 0, Colours::GhostWhite, Colours::RoyalBlue);
 	}
 
@@ -206,6 +217,25 @@ public:
 
 
 		CurrentWorkingMode = DI_getvalveworkingmode(DB205);
+
+		ui_thread_run_async([=]() {
+			if (this->PSHopper_menu != nullptr) {
+				DI_condition_menu(this->PSHopper_menu, PSHopperPumpChargeAction::PSHopper, DB205, PSHopper);
+				DI_condition_menu(this->PSHopper_menu, PSHopperPumpChargeAction::BothHopper, DB205, BothHopper);
+			}
+			if (this->SBHopper_menu != nullptr) {
+				DI_condition_menu(this->SBHopper_menu, SBHopperPumpChargeAction::SBHopper, DB205, SBHopper);
+				DI_condition_menu(this->SBHopper_menu, SBHopperPumpChargeAction::BothHopper, DB205, BothHopper);
+			}
+			if (this->PSUnderWater_menu != nullptr) {
+				DI_condition_menu(this->PSUnderWater_menu, PSUnderWaterPumpChargeAction::PSUnderWater, DB205, PSUnderWater);
+				DI_condition_menu(this->PSUnderWater_menu, PSUnderWaterPumpChargeAction::BothUnderWater, DB205, BothUnderWater);
+			}
+			if (this->SBUnderWater_menu != nullptr) {
+				DI_condition_menu(this->SBUnderWater_menu, SBUnderWaterPumpChargeAction::SBUnderWater, DB205, SBUnderWater);
+				DI_condition_menu(this->SBUnderWater_menu, PSUnderWaterPumpChargeAction::BothUnderWater, DB205, BothUnderWater);
+			}
+			});
 	}
 
 	void on_forat(long long timepoint_ms, const uint8* DB20, size_t count, Syslog* logger) override {
@@ -214,15 +244,14 @@ public:
 		this->pumps_rpm[CS::PSHPump]->set_value(DBD(DB20, 650U), GraphletAnchor::LB);//左舱内
 		this->pumps_rpm[CS::SBHPump]->set_value(DBD(DB20, 662U), GraphletAnchor::LB);//右舱内
 	}
-	void post_read_data(Syslog* logger) override {//管道信号
-
+	void on_signals_updated(long long timepoint_ms, Syslog* logger) override {
 		{
 			//工况 填充
 			switch (CurrentWorkingMode) {
 			case ValvesConditionAction::PSUWPumpSingleDredging://左水下泵单耙挖泥
-				this->try_flow_water(5, CS::Port,CS::PSUWPump,CS::HV01, CS::HV13, CS::HV15);
+				this->try_flow_water(5, CS::Port, CS::PSUWPump, CS::HV01, CS::HV13, CS::HV15);
 				if (this->valve_open(CS::HV17))
-					this->try_flow_water(3, CS::HV15, CS::HV17,CS::h17end);
+					this->try_flow_water(3, CS::HV15, CS::HV17, CS::h17end);
 				if (this->valve_open(CS::HV19))
 					this->try_flow_water(4, CS::HV15, CS::h19, CS::HV19, CS::h19end);
 				if (this->valve_open(CS::HV21))
@@ -311,6 +340,8 @@ public:
 				break;
 			}
 		}
+	}
+	void post_read_data(Syslog* logger) override {//管道信号
 
 		this->master->end_update_sequence();
 		this->master->leave_critical_section();
@@ -901,6 +932,10 @@ private:
 
 private:
 	ChargesPage* master;
+	MenuFlyout^ PSHopper_menu;
+	MenuFlyout^ SBHopper_menu;
+	MenuFlyout^ PSUnderWater_menu;
+	MenuFlyout^ SBUnderWater_menu;
 };
 
 private class VesselDecorator : public TVesselDecorator<Vessel, CS> {
@@ -923,18 +958,17 @@ public:
 
 /*************************************************************************************************/
 ChargesPage::ChargesPage(PLCMaster* plc) : Planet(__MODULE__), device(plc) {
-	Vessel* dashboard = new Vessel(this);
-
-	this->dashboard = dashboard;
+	Vessel* dashboard = nullptr;
 
 	if (this->device != nullptr) {
 		this->diagnostics = new HopperPumpDiagnostics(plc);
 		this->motor_info = new UnderwaterPumpMotorMetrics(plc);
+
 		this->gate_valve_op = make_gate_valve_menu(DO_gate_valve_action, plc);
 		this->ghopper_op = make_charge_condition_menu(GroupChargeAction::BothHopper, plc);
 		this->gunderwater_op = make_charge_condition_menu(GroupChargeAction::BothUnderWater, plc);
-		this->ghbarge_op = make_charge_condition_menu(GroupChargeAction::HPBarge, plc);
-		this->guwbarge_op = make_charge_condition_menu(GroupChargeAction::UWPBarge, plc);
+		//this->ghbarge_op = make_charge_condition_menu(GroupChargeAction::HPBarge, plc);
+		//this->guwbarge_op = make_charge_condition_menu(GroupChargeAction::UWPBarge, plc);
 		this->ghps_op = make_charge_condition_menu(GroupChargeAction::PSHopper, plc);
 		this->guwps_op = make_charge_condition_menu(GroupChargeAction::PSUnderWater, plc);
 		this->ghsb_op = make_charge_condition_menu(GroupChargeAction::SBHopper, plc);
@@ -944,8 +978,14 @@ ChargesPage::ChargesPage(PLCMaster* plc) : Planet(__MODULE__), device(plc) {
 		this->ps_underwater_op = make_ps_underwater_pump_charge_menu(plc);
 		this->sb_underwater_op = make_sb_underwater_pump_charge_menu(plc);
 
-		this->device->push_confirmation_receiver(dashboard);
 
+		{ // only highlight menu items of these four menus
+			dashboard = new Vessel(this, this->ps_hopper_op, this->sb_hopper_op, this->ps_underwater_op, this->sb_underwater_op);
+			this->device->push_confirmation_receiver(dashboard);
+		}
+	}
+	else {
+		dashboard = new Vessel(this);
 	}
 
 	{ // load decorators
@@ -958,6 +998,7 @@ ChargesPage::ChargesPage(PLCMaster* plc) : Planet(__MODULE__), device(plc) {
 #endif
 
 		this->push_decorator(new VesselDecorator(dashboard));
+		this->dashboard = dashboard;
 	}
 }
 
@@ -999,7 +1040,7 @@ void ChargesPage::reflow(float width, float height) {
 	}
 }
 
-void ChargesPage::on_timestream(long long timepoint_ms, size_t addr0, size_t addrn, uint8* data, size_t size, Syslog* logger) {
+void ChargesPage::on_timestream(long long timepoint_ms, size_t addr0, size_t addrn, uint8* data, size_t size, uint64 p_type, size_t p_size, Syslog* logger) {
 	auto dashboard = dynamic_cast<Vessel*>(this->dashboard);
 
 	if (dashboard != nullptr) {

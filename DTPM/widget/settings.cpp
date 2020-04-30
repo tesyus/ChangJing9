@@ -8,6 +8,7 @@
 
 #include "preference/colorplot.hpp"
 #include "preference/profile.hpp"
+#include "preference/dredgetrack.hpp"
 
 #include "datum/box.hpp"
 
@@ -17,6 +18,7 @@
 
 using namespace WarGrey::SCADA;
 using namespace WarGrey::DTPM;
+using namespace WarGrey::GYDM;
 
 using namespace Windows::Foundation;
 using namespace Windows::System;
@@ -43,7 +45,7 @@ namespace {
 
 	public:
 		double3 gps_to_xyz(double latitude, double longitude, double altitude, GCSParameter& gcs) override {
-			return GPS_to_XYZ(latitude, longitude, altitude, gcs);
+			return DDmm_mm_to_XYZ(latitude, longitude, altitude, gcs);
 		}
 
 		double3 xyz_to_gps(double x, double y, double z, GCSParameter& gcs) override {
@@ -123,6 +125,7 @@ namespace {
 			this->push_planet(new GPSCSEditor(BEJ54Convertor::instance()));
 			this->push_planet(new ColorPlotEditor());
 			this->push_planet(new ProfileEditor());
+			this->push_planet(new DredgeTrackEditor());
 		}
 
 	private: // never delete these objects manually
@@ -152,7 +155,7 @@ namespace {
 
 		void fill_extent(float* width, float* height) override {
 			Size size = system_screen_size();
-			float ratio = 0.75F;
+			float ratio = 0.85F;
 
 			SET_BOX(width, size.Width * ratio);
 			SET_BOX(height, size.Height * ratio);

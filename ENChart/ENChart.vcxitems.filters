@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="crypto">
+      <UniqueIdentifier>{3db47e0b-6e46-4e77-8471-80df57c54864}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="crypto\blowfish">
+      <UniqueIdentifier>{d9f589a9-fcc9-4ee5-8641-ce2a511dd88e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphlet">
+      <UniqueIdentifier>{c1bc6fbd-3645-4227-bf04-be30ba2353d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphlet\filesystem">
+      <UniqueIdentifier>{29af74f9-ff25-47d1-8e59-748029fe16f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphlet\filesystem\enchart">
+      <UniqueIdentifier>{f9225652-b9b2-4066-bdf9-452b4a334d05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphlet\filesystem\enchart\reader">
+      <UniqueIdentifier>{882c9484-5bb7-4701-987e-c1aadb80f32f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stone">
+      <UniqueIdentifier>{685090cf-ab24-418b-bb0c-aa89810a665c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stone\tongue">
+      <UniqueIdentifier>{774346af-6b37-4e46-b1eb-52e7f097b17a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stone\tongue\en-US">
+      <UniqueIdentifier>{c1c1f924-e0b1-4823-81d1-fe057c24e9b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stone\tongue\zh-CN">
+      <UniqueIdentifier>{e38469e4-9e8f-4a9a-887b-ef5e41c940a1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)crypto\blowfish\cipher.cpp">
+      <Filter>crypto\blowfish</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)crypto\blowfish\core.cpp">
+      <Filter>crypto\blowfish</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)crypto\blowfish\s_box.cpp">
+      <Filter>crypto\blowfish</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)crypto\enckey.cpp">
+      <Filter>crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)graphlet\filesystem\enchart\reader\crtdoc.cxx">
+      <Filter>graphlet\filesystem\enchart\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)graphlet\filesystem\enchart\reader\enctype.cxx">
+      <Filter>graphlet\filesystem\enchart\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)graphlet\filesystem\enchart\reader\permitdoc.cxx">
+      <Filter>graphlet\filesystem\enchart\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)graphlet\filesystem\enchart\reader\pubdoc.cxx">
+      <Filter>graphlet\filesystem\enchart\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)graphlet\filesystem\s63let.cpp">
+      <Filter>graphlet\filesystem</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)crypto\blowfish\cipher.hpp">
+      <Filter>crypto\blowfish</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)crypto\blowfish\core.hpp">
+      <Filter>crypto\blowfish</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)crypto\blowfish\pi_box.hpp">
+      <Filter>crypto\blowfish</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)crypto\blowfish\s_box.hpp">
+      <Filter>crypto\blowfish</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)crypto\blowfish.hpp">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)crypto\enckey.hpp">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)graphlet\filesystem\enchart\reader\crtdoc.hxx">
+      <Filter>graphlet\filesystem\enchart\reader</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)graphlet\filesystem\enchart\reader\enctype.hxx">
+      <Filter>graphlet\filesystem\enchart\reader</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)graphlet\filesystem\enchart\reader\permitdoc.hxx">
+      <Filter>graphlet\filesystem\enchart\reader</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)graphlet\filesystem\enchart\reader\pubdoc.hxx">
+      <Filter>graphlet\filesystem\enchart\reader</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)graphlet\filesystem\s63let.hpp">
+      <Filter>graphlet\filesystem</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="$(MSBuildThisFileDirectory)stone\tongue\en-US\encerror.resw">
+      <Filter>stone\tongue\en-US</Filter>
+    </PRIResource>
+    <PRIResource Include="$(MSBuildThisFileDirectory)stone\tongue\zh-CN\encerror.resw">
+      <Filter>stone\tongue\zh-CN</Filter>
+    </PRIResource>
+  </ItemGroup>
+</Project>

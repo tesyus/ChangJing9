@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <ProjectGuid>{a48fbec3-58b7-44ff-b428-4b63cd1c0f23}</ProjectGuid>
@@ -74,12 +74,13 @@
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
-    <Import Project="..\Auxiliary\Auxiliary.vcxitems" Label="Shared" />
     <Import Project="..\BigBang\BigBang.vcxitems" Label="Shared" />
-    <Import Project="..\DataAccess\DataAccess.vcxitems" Label="Shared" />
     <Import Project="..\Graphics\Graphics.vcxitems" Label="Shared" />
     <Import Project="..\Configuration\Configuration.vcxitems" Label="Shared" />
     <Import Project="..\WormHole\WormHole.vcxitems" Label="Shared" />
+    <Import Project="..\Jargon\Jargon.vcxitems" Label="Shared" />
+    <Import Project="..\Base\Base.vcxitems" Label="Shared" />
+    <Import Project="..\Schema\Schema.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -109,10 +110,11 @@
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>Daily</AppInstallerCheckForUpdateFrequency>
     <AppInstallerUri>\\192.168.0.2\Win10_SCADA</AppInstallerUri>
-    <PackageCertificateThumbprint>1F6B181AFBE0B118E5B0002D44228F68E7860249</PackageCertificateThumbprint>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <HoursBetweenUpdateChecks>24</HoursBetweenUpdateChecks>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <PackageCertificateThumbprint>1F6B181AFBE0B118E5B0002D44228F68E7860249</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -196,7 +198,6 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <ObjectFileName>$(IntDir)</ObjectFileName>
-      <Optimization>Disabled</Optimization>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -290,16 +291,13 @@
       <SubType>Designer</SubType>
       <DeploymentContent>false</DeploymentContent>
     </PRIResource>
-    <PRIResource Include="stone\tongue\en-US\menu.resw">
-      <DeploymentContent>false</DeploymentContent>
-    </PRIResource>
     <PRIResource Include="stone\tongue\en-US\glands.resw" />
+    <PRIResource Include="stone\tongue\en-US\menu.resw" />
     <PRIResource Include="stone\tongue\en-US\settings.resw" />
     <PRIResource Include="stone\tongue\en-US\subpage\underwater_pump_motor.resw" />
     <PRIResource Include="stone\tongue\en-US\widget.resw" />
     <PRIResource Include="stone\tongue\en-US\tongue.resw">
       <DeploymentContent>false</DeploymentContent>
-      <SubType>Designer</SubType>
     </PRIResource>
     <PRIResource Include="stone\tongue\zh-CN\alarm.resw" />
     <PRIResource Include="stone\tongue\zh-CN\alarms.resw" />
@@ -311,9 +309,7 @@
     <PRIResource Include="stone\tongue\zh-CN\dredges.resw" />
     <PRIResource Include="stone\tongue\zh-CN\flushs.resw" />
     <PRIResource Include="stone\tongue\zh-CN\charges.resw" />
-    <PRIResource Include="stone\tongue\zh-CN\draughts.resw">
-      <SubType>Designer</SubType>
-    </PRIResource>
+    <PRIResource Include="stone\tongue\zh-CN\draughts.resw" />
     <PRIResource Include="stone\tongue\zh-CN\lubrications.resw" />
     <PRIResource Include="stone\tongue\zh-CN\discharges.resw" />
     <PRIResource Include="stone\tongue\zh-CN\hopper_doors.resw">
@@ -326,10 +322,10 @@
       <SubType>Designer</SubType>
       <DeploymentContent>false</DeploymentContent>
     </PRIResource>
-    <PRIResource Include="stone\tongue\zh-CN\menu.resw">
-      <DeploymentContent>false</DeploymentContent>
-    </PRIResource>
     <PRIResource Include="stone\tongue\zh-CN\glands.resw" />
+    <PRIResource Include="stone\tongue\zh-CN\menu.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
     <PRIResource Include="stone\tongue\zh-CN\settings.resw" />
     <PRIResource Include="stone\tongue\zh-CN\subpage\underwater_pump_motor.resw" />
     <PRIResource Include="stone\tongue\zh-CN\widget.resw" />
@@ -338,7 +334,7 @@
     </PRIResource>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ch13800m3.cxx" />
+    <ClCompile Include="SCADA.cxx" />
     <ClCompile Include="decorator\headsup.cpp" />
     <ClCompile Include="decorator\ship.cpp" />
     <ClCompile Include="page\diagnostics\dredges_dx.cpp" />
@@ -401,12 +397,12 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\Win2D.uwp.1.23.0\build\native\Win2D.uwp.targets" Condition="Exists('..\packages\Win2D.uwp.1.23.0\build\native\Win2D.uwp.targets')" />
+    <Import Project="..\packages\Win2D.uwp.1.24.0\build\native\Win2D.uwp.targets" Condition="Exists('..\packages\Win2D.uwp.1.24.0\build\native\Win2D.uwp.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Win2D.uwp.1.23.0\build\native\Win2D.uwp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Win2D.uwp.1.23.0\build\native\Win2D.uwp.targets'))" />
+    <Error Condition="!Exists('..\packages\Win2D.uwp.1.24.0\build\native\Win2D.uwp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Win2D.uwp.1.24.0\build\native\Win2D.uwp.targets'))" />
   </Target>
 </Project>

@@ -128,7 +128,7 @@
     <ClCompile Include="page\lubrications.cpp">
       <Filter>page</Filter>
     </ClCompile>
-    <ClCompile Include="ch13800m3.cxx" />
+    <ClCompile Include="SCADA.cxx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="page\hydraulics.hpp">
@@ -404,12 +404,6 @@
     <PRIResource Include="stone\tongue\zh-CN\hydraulics.resw">
       <Filter>stone\tongue\zh-CN</Filter>
     </PRIResource>
-    <PRIResource Include="stone\tongue\en-US\menu.resw">
-      <Filter>stone\tongue\en-US</Filter>
-    </PRIResource>
-    <PRIResource Include="stone\tongue\zh-CN\menu.resw">
-      <Filter>stone\tongue\zh-CN</Filter>
-    </PRIResource>
     <PRIResource Include="stone\tongue\en-US\hopper_doors.resw">
       <Filter>stone\tongue\en-US</Filter>
     </PRIResource>
@@ -522,6 +516,12 @@
       <Filter>stone\tongue\en-US</Filter>
     </PRIResource>
     <PRIResource Include="stone\tongue\zh-CN\lubrications.resw">
+      <Filter>stone\tongue\zh-CN</Filter>
+    </PRIResource>
+    <PRIResource Include="stone\tongue\en-US\menu.resw">
+      <Filter>stone\tongue\en-US</Filter>
+    </PRIResource>
+    <PRIResource Include="stone\tongue\zh-CN\menu.resw">
       <Filter>stone\tongue\zh-CN</Filter>
     </PRIResource>
   </ItemGroup>
