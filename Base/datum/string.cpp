@@ -115,7 +115,7 @@ Platform::String^ WarGrey::SCADA::gpstring(double position, char suffix, int pre
 		sec -= 60;
 	}
 
-	return make_wstring(L"%d°%02d'%02d\"%c", deg, min, sec, suffix);
+	return flisnan(position) ? "nan" : make_wstring(L"%d°%02d'%02d\"%c", deg, min, sec, suffix);
 }
 
 /*************************************************************************************************/

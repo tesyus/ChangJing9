@@ -295,7 +295,7 @@ bytes Natural::to_binstring(uint8 alignment) const {
 }
 
 /*************************************************************************************************/
-Natural::Natural(const Natural& n) : natural(nullptr), capacity(fxmax(n.payload, sizeof(unsigned long long))), payload(n.payload) {
+Natural::Natural(const Natural& n) : natural(nullptr), capacity(fxmax(n.payload, sizeof(unsigned long long))), payload(n.payload) { // copy constructor
 	this->natural = this->malloc(this->capacity);
 
 	if (this->payload > 0) {
@@ -305,7 +305,7 @@ Natural::Natural(const Natural& n) : natural(nullptr), capacity(fxmax(n.payload,
 	}
 }
 
-Natural::Natural(Natural&& n) : natural(n.natural), capacity(n.capacity), payload(n.payload) {
+Natural::Natural(Natural&& n) : natural(n.natural), capacity(n.capacity), payload(n.payload) { // move constructor
 	n.on_moved();
 }
 
@@ -315,39 +315,39 @@ Natural& Natural::operator=(unsigned long long n) {
 	return (*this);
 }
 
-Natural& Natural::operator=(const Natural& n) {
-	if (n.payload > this->capacity) {
-		if (this->natural != nullptr) {
-			delete[] this->natural;
+Natural& Natural::operator=(const Natural& n) { // copy assignment operator
+	if (this != &n) {
+		if (n.payload > this->capacity) {
+			if (this->natural != nullptr) {
+				delete[] this->natural;
+			}
+
+			this->capacity = n.payload;
+			this->natural = this->malloc(this->capacity);
 		}
 
-		this->capacity = n.payload;
-		this->natural = this->malloc(this->capacity);
-	}
+		this->payload = n.payload;
+		if (this->payload > 0) {
+			size_t payload_idx = this->capacity - this->payload;
+			size_t n_idx = n.capacity - this->payload;
 
-	this->payload = n.payload;
-	if (this->payload > 0) {
-		size_t payload_idx = this->capacity - this->payload;
-		size_t n_idx = n.capacity - this->payload;
-
-		memcpy(this->natural + payload_idx, n.natural + n_idx, this->payload);
+			memcpy(this->natural + payload_idx, n.natural + n_idx, this->payload);
+		}
 	}
 
 	return (*this);
 }
 
-Natural& Natural::operator=(Natural&& n) {
-	if (this != &n) {
-		if (this->natural != nullptr) {
-			delete[] this->natural;
-		}
-
-		this->natural = n.natural;
-		this->capacity = n.capacity;
-		this->payload = n.payload;
-
-		n.on_moved();
+Natural& Natural::operator=(Natural&& n) { // move assignment operator
+	if (this->natural != nullptr) {
+		delete[] this->natural;
 	}
+
+	this->natural = n.natural;
+	this->capacity = n.capacity;
+	this->payload = n.payload;
+
+	n.on_moved();
 
 	return (*this);
 }
@@ -1311,7 +1311,7 @@ bool Natural::is_bit_set(unsigned long long m) {
 	if (m <= (this->payload * 8U)) {
 		uint64 q = m / 8;
 		uint64 r = m % 8;
-		uint8 digit = this->natural[this->capacity - 1 - q];
+		uint8 digit = this->natural[this->capacity - q - 1];
 
 		set = ((digit & (1 << r)) > 0U);
 	}
@@ -1319,79 +1319,79 @@ bool Natural::is_bit_set(unsigned long long m) {
 	return set;
 }
 
-Natural Natural::bit_field(unsigned long long start, unsigned long long end) { // counting from right side
+Natural Natural::bit_field(unsigned long long start, unsigned long long endp1) { // counting from right side
 	size_t startq = size_t(start / 8);
-	size_t endq = size_t(end) / 8 + 1;
-	size_t endr = size_t(end % 8);
+	size_t endq = size_t(endp1) / 8;
+	size_t endr = size_t(endp1 % 8);
 	Natural sub(nullptr, 0LL);
 
 	if (startq < this->payload) {
-		if (endq > this->payload) {
+		size_t startr = (size_t)(start % 8);
+
+		if (endq >= this->payload) {
 			endq = this->payload;
 			endr = 0U;
 		}
 
-		if (endq > startq) {
-			size_t startr = (size_t)(start % 8);
-			
-			sub.payload = endq - startq;
+		if (endq >= startq) {
+			sub.payload = (endq - startq) + ((endr > 0) ? 1 : 0);
 
 			if (sub.payload > sub.capacity) {
 				sub.expand(sub.payload - sub.capacity);
 			}
-			
-			memcpy(sub.natural + (sub.capacity - sub.payload), this->natural + (this->capacity - endq), sub.payload);
 
-			if (endr > 0U) {
-				sub.natural[sub.capacity - sub.payload] &= ((1 << endr) - 1);
-			}
-
-			sub >>= startr;
+			memcpy(sub.natural + (sub.capacity - sub.payload), this->natural + (this->capacity - startq - sub.payload), sub.payload);
 		}
+
+		if (endr > 0U) {
+			sub.natural[sub.capacity - sub.payload] &= ((1U << endr) - 1U);
+		}
+
+		sub >>= startr;
 	}
 
 	return sub;
 }
 
-unsigned long long Natural::bitfield(unsigned long long start, unsigned long long end0) { // counting from right side
+unsigned long long Natural::bitfield(unsigned long long start, unsigned long long endp1) { // counting from right side
 	unsigned long long sub = 0x0U;
-	size_t end = fxmin(start + 64, end0);
-	size_t startq = size_t(start / 8);
-	size_t endq = size_t(end) / 8 + 1;
-	size_t endr = size_t(end % 8);
 	
-	if (startq < this->payload) {
-		if (endq > this->payload) {
-			endq = this->payload;
-			endr = 0U;
-		}
+	endp1 = fxmin(start + 64, fxmin(endp1, this->payload * 8U + 1U));
+
+	if ((endp1 > 0) && (endp1 > start)) {
+		size_t startq = size_t(start / 8);
+		size_t startr = size_t(start % 8);
+		size_t endq = size_t(endp1) / 8;
+		size_t endr = size_t(endp1) % 8;
+		size_t terminator = this->capacity - startq - 1;
 
 		if (endq > startq) {
-			size_t startr = (size_t)(start % 8);
-			size_t idx = this->capacity - endq;
-			size_t terminator = (endq - startq) + idx;
+			size_t idx = this->capacity - endq - 1;
 
-			sub = this->natural[idx++];
-			
-			if (endr > 0U) {
-				sub &= ((1 << endr) - 1);
+			if (endr > 0) {
+				sub = this->natural[idx++] & ((1U << endr) - 1U);
+			} else {
+				idx++;
 			}
 
 			while (idx < terminator) {
 				sub <<= 8;
 				sub |= this->natural[idx++];
-			}
+			};
 
-			sub >>= startr;
+			sub <<= (8 - startr);
+			sub |= (this->natural[terminator] >> startr);
+		} else if (endq == startq) {
+			sub = (this->natural[terminator] & ((1U << endr) - 1U)) >> startr;
 		}
 	}
 
 	return sub;
 }
 
-long long Natural::signed_bitfield(unsigned long long start, unsigned long long end) { // counting from right side
-	unsigned long long mask_length = fxmin(end - start, 64ULL) - 1;
-	unsigned long long raw = this->bitfield(start, end);
+long long Natural::signed_bitfield(unsigned long long start, unsigned long long endp1) { // counting from right side
+	unsigned long long mask_length = fxmin(endp1 - start, 64ULL) - 1;
+	unsigned long long raw = this->bitfield(start, endp1);
 	long long sint = 0LL;
 
 	if ((raw >> mask_length) > 0) {
