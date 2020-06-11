@@ -29,9 +29,13 @@ namespace WarGrey::SCADA {
 		WarGrey::SCADA::PLCMaster* device;
 		WarGrey::SCADA::PLCConfirmation* dashboard;
 		Windows::UI::Xaml::Controls::MenuFlyout^ door_op;
-		Windows::UI::Xaml::Controls::MenuFlyout^ gdoors12_op;
-		Windows::UI::Xaml::Controls::MenuFlyout^ gdoors35_op;
-		Windows::UI::Xaml::Controls::MenuFlyout^ gdoors67_op;
+		//Windows::UI::Xaml::Controls::MenuFlyout^ gdoors12_op;
+		//Windows::UI::Xaml::Controls::MenuFlyout^ gdoors35_op;
+		//Windows::UI::Xaml::Controls::MenuFlyout^ gdoors67_op;
 		Windows::UI::Xaml::Controls::MenuFlyout^ gdoors17_op;
+
+		Windows::UI::Xaml::Controls::MenuFlyout^ gdoors13_op;
+		Windows::UI::Xaml::Controls::MenuFlyout^ gdoors57_op;
+		Windows::UI::Xaml::Controls::MenuFlyout^ gdoors246_op;
 	};
 }

@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+/DTPM/x64/Release
+/SCADA/x64/Release
+/x64/Release/SCADA

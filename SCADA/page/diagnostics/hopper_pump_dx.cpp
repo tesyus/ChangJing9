@@ -51,10 +51,10 @@ private enum class HP : unsigned int {
 	HPReady,//变频器备妥
 	HPNoEmergence,//变频器无急停
 	HPPipeReady,//管系备妥
-	HPSuctionInPlace,//吸口到位（挖泥有效）
+	//HPSuctionInPlace,//吸口到位（挖泥有效）
 	HPLeaveThe0,//旋钮离开0位
 	HPMode,//舱内泵模式
-	HPTireInflatable,//汽胎充气
+	//HPTireInflatable,//汽胎充气
 	HPLubricatingOilPump,//齿轮箱滑油泵运行
 	HPLubricatingFlow,//轴承润滑单元运行且流量正常
 	HPGlandPump,//封水泵运行
@@ -175,10 +175,10 @@ public:
 		this->diagnoses[HP::HPReady]->set_state(DBX(DB4, !this->ps ? 832U : 800U), AlarmState::Notice, AlarmState::None);
 		this->diagnoses[HP::HPNoEmergence]->set_state(!DBX(DB4, !this->ps ? 836U : 804U), AlarmState::Notice, AlarmState::None);
 		this->diagnoses[HP::HPPipeReady]->set_state(DBX(DB205, !this->ps ? 819U : 818U), AlarmState::Notice, AlarmState::None);
-		this->diagnoses[HP::HPSuctionInPlace]->set_state(DBX(DB205, !this->ps ? 2546U : 2402U), AlarmState::Notice, AlarmState::None);
+		//this->diagnoses[HP::HPSuctionInPlace]->set_state(DBX(DB205, !this->ps ? 2546U : 2402U), AlarmState::Notice, AlarmState::None);
 		this->diagnoses[HP::HPLeaveThe0]->set_state(DBX(DB4, !this->ps ? 580U : 644U), AlarmState::Notice, AlarmState::None);
 		this->diagnoses[HP::HPMode]->set_state(DBX(DB4, !this->ps ? 856U : 824U), AlarmState::Notice, AlarmState::None);
-		this->diagnoses[HP::HPTireInflatable]->set_state(DBX(DB205, !this->ps ? 1912U : 1912U), AlarmState::Notice, AlarmState::None);
+		//this->diagnoses[HP::HPTireInflatable]->set_state(DBX(DB205, !this->ps ? 1912U : 1912U), AlarmState::Notice, AlarmState::None);
 		this->diagnoses[HP::HPLubricatingOilPump]->set_state(DBX(DB4, !this->ps ? 392U : 384U)|| DBX( DB4, !this->ps ? 398U : 390U), AlarmState::Notice, AlarmState::None);
 		this->diagnoses[HP::HPLubricatingFlow]->set_state((DBX(DB4, !this->ps ? 434U : 426U) || DBX(DB4, !this->ps ? 435U : 427U)) && !DBX(DB4, !this->ps ? 436U : 428U), AlarmState::Notice, AlarmState::None);
 		this->diagnoses[HP::HPGlandPump]->set_state((hpgp1&& hpgp2) || (hpgp2 && hpgp3) || (hpgp3 && hpgp1), AlarmState::Notice, AlarmState::None);

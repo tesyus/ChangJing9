@@ -4,7 +4,7 @@
          xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
          xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
          IgnorableNamespaces="uap mp iot">
-  <Identity Name="CH13800m3" Publisher="CN=Tesyus@mrit" Version="1.0.479.0" />
+  <Identity Name="CH13800m3" Publisher="CN=Tesyus@mrit" Version="1.1.13.0" />
   <mp:PhoneIdentity PhoneProductId="060621da-8c22-4218-bd3c-1c5b6ca2db44" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>CH13800m3</DisplayName>

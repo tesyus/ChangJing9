@@ -34,6 +34,7 @@ namespace WarGrey::SCADA {
 		Windows::UI::Xaml::Controls::MenuFlyout^ gvisor_op;
 		Windows::UI::Xaml::Controls::MenuFlyout^ pump_op;
 		Windows::UI::Xaml::Controls::MenuFlyout^ heater_op;
+		Windows::UI::Xaml::Controls::MenuFlyout^ valve_op;
 
 	private:
 		WarGrey::SCADA::GridDecorator* grid;

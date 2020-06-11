@@ -35,6 +35,8 @@
 
 #include "iotables/do_pumps.hpp"
 #include "iotables/do_devices.hpp"
+#include "iotables/do_alarm.hpp"
+#include <iotables\do_valves.hpp>
 
 using namespace WarGrey::SCADA;
 using namespace WarGrey::GYDM;
@@ -47,7 +49,7 @@ using namespace Microsoft::Graphics::Canvas::UI;
 using namespace Microsoft::Graphics::Canvas::Text;
 using namespace Microsoft::Graphics::Canvas::Brushes;
 
-private enum class HSFunction { BOPOverride, _ };
+private enum class HSFunction { BOPOverride,MasterOverride,VisorOverride,_ };
 
 private enum class HSMTState { Empty, UltraLow, Low, Normal, High, Full, _ };
 
@@ -90,11 +92,11 @@ private enum class HS : unsigned int {
 	*/
 	PSTrunnion, FrontDoor2,BackDoor2, Gatevalves,FlushValve,//C1 左弯管/泥门4-7/抽舱门4-7/闸阀/耙头冲水蝶阀
 	PSIntermediate1, PSIntermediate2,//B1B2	 左耙中
-	PSDraghead, PSCompensator,AllDoorOpen,//A1	左耙头/左补偿
+	PSDraghead, PSCompensator,PSAllDoorOpen,//A1	左耙头/左补偿
 
 	SBTrunnion, SBCompensator, Bowblowing, StemSpray,//C2  右弯管/右补偿/艏吹/艏喷
 	SBIntermediate3, SBIntermediate4,//B1B2  右耙中
-	SBDraghead, Overflow,FrontDoor1, BackDoor1, EnergyDissipationGateValve,//A2  右耙头/溢流桶/泥门1-3/抽舱门1-3/消能箱闸阀
+	SBDraghead, Overflow,FrontDoor1, BackDoor1, EnergyDissipationGateValve, SBAllDoorOpen,//A2  右耙头/溢流桶/泥门1-3/抽舱门1-3/消能箱闸阀
 
 
 	ButterflyValves, DoorsLocking,//D1 D2 蝶阀 泥门锁紧
@@ -119,12 +121,12 @@ private enum class HS : unsigned int {
 static HS C1[] = { HS::PSTrunnion, HS::Gatevalves,HS::FlushValve ,HS::FrontDoor2,HS::BackDoor2};
 static HS B1[] = { HS::PSIntermediate1 };
 static HS B2[] = { HS::PSIntermediate2 };
-static HS A1[] = { HS::PSDraghead ,HS::PSCompensator,HS::AllDoorOpen };
+static HS A1[] = { HS::PSDraghead ,HS::PSCompensator,HS::PSAllDoorOpen };
 
 static HS C2[] = { HS::SBTrunnion,  HS::Overflow, HS::Bowblowing ,HS::FrontDoor1, HS::BackDoor1 };//HS::StemSpray 
 static HS B3[] = { HS::SBIntermediate3 };
 static HS B4[] = { HS::SBIntermediate4 };
-static HS A2[] = { HS::SBDraghead ,HS::SBCompensator};// HS::EnergyDissipationGateValve
+static HS A2[] = { HS::SBDraghead ,HS::SBCompensator,HS::SBAllDoorOpen };// HS::EnergyDissipationGateValve
 /*************************************************************************************************/
 static HydraulicPumpDiagnostics* satellite; // it will be destroyed by `atexit()`;
 
@@ -181,6 +183,16 @@ static uint16 DO_hydraulics_action(HydraulicPumpAction cmd, HydraulicPumplet* pu
 	return index;
 }
 
+static uint16 DO_hydraulic_valve_action(HydraulicValveAction cmd, GateValvelet* valve) {
+	uint16 index = 0U;
+	auto credit_valve = dynamic_cast<Credit<GateValvelet, HS>*>(valve);
+
+	if (credit_valve != nullptr) {
+		index = DO_hydraulic_valve_command(cmd, credit_valve->id);
+	}
+
+	return index;
+}
 static const HS* select_captions(HS pid, unsigned int* count) {
 	HS* captions = nullptr;
 
@@ -246,6 +258,8 @@ public:
 
 	void on_digital_input(long long timepoint_ms, const uint8* DB4, size_t count4, const uint8* DB205, size_t count205, Syslog* logger) override {
 		DI_backoil_pressure_override(this->functions[HSFunction::BOPOverride], DB205, backoil_pressure_override_status);
+		DI_backoil_pressure_override(this->functions[HSFunction::MasterOverride], DB205, master_override_status);
+		DI_backoil_pressure_override(this->functions[HSFunction::VisorOverride], DB205, visor_override_status);
 
 		{ // tank states
 			DI_tank_heater(this->heater[HeaterSlot::Master], DB4, master_tank_heater_feedback, DB205, master_tank_heater_status);
@@ -290,24 +304,24 @@ public:
 		}
 
 		{ // valves state
-			DI_manual_valve(this->valves[HS::S4], DB4, manual_valve_S4_status);
-			DI_manual_valve(this->valves[HS::S5], DB4, manual_valve_S5_status);
+			DI_S_valve(this->valves[HS::S4], DB4, manual_valve_S4_status, DB205, manual_valve_S4_virtual);
+			DI_S_valve(this->valves[HS::S5], DB4, manual_valve_S5_status, DB205, manual_valve_S5_virtual);
 
-			DI_manual_valve(this->valves[HS::S14], DB4, manual_valve_S14_status);
-			DI_manual_valve(this->valves[HS::S13], DB4, manual_valve_S13_status);
-			DI_manual_valve(this->valves[HS::S12], DB4, manual_valve_S12_status);
-			DI_manual_valve(this->valves[HS::S11], DB4, manual_valve_S11_status);
-			DI_manual_valve(this->valves[HS::S1], DB4, manual_valve_S1_status);
+			DI_S_valve(this->valves[HS::S14], DB4, manual_valve_S14_status, DB205, manual_valve_S14_virtual);
+			DI_S_valve(this->valves[HS::S13], DB4, manual_valve_S13_status, DB205, manual_valve_S13_virtual);
+			DI_S_valve(this->valves[HS::S12], DB4, manual_valve_S12_status, DB205, manual_valve_S12_virtual);
+			DI_S_valve(this->valves[HS::S11], DB4, manual_valve_S11_status, DB205, manual_valve_S11_virtual);
+			DI_S_valve(this->valves[HS::S1], DB4, manual_valve_S1_status, DB205, manual_valve_S1_virtual);
 
-			DI_manual_valve(this->valves[HS::S6], DB4, manual_valve_S6_status);
-			DI_manual_valve(this->valves[HS::S7], DB4, manual_valve_S7_status);
+			DI_S_valve(this->valves[HS::S6], DB4, manual_valve_S6_status, DB205, manual_valve_S6_virtual);
+			DI_S_valve(this->valves[HS::S7], DB4, manual_valve_S7_status, DB205, manual_valve_S7_virtual);
 
-			DI_manual_valve(this->valves[HS::S24], DB4, manual_valve_S24_status);
-			DI_manual_valve(this->valves[HS::S23], DB4, manual_valve_S23_status);
-			DI_manual_valve(this->valves[HS::S22], DB4, manual_valve_S22_status);
-			DI_manual_valve(this->valves[HS::S21], DB4, manual_valve_S21_status);
-			DI_manual_valve(this->valves[HS::S2], DB4, manual_valve_S2_status);
-			DI_manual_valve(this->valves[HS::S3], DB4, manual_valve_S3_status);
+			DI_S_valve(this->valves[HS::S24], DB4, manual_valve_S24_status, DB205, manual_valve_S24_virtual);
+			DI_S_valve(this->valves[HS::S23], DB4, manual_valve_S23_status, DB205, manual_valve_S23_virtual);
+			DI_S_valve(this->valves[HS::S22], DB4, manual_valve_S22_status, DB205, manual_valve_S22_virtual);
+			DI_S_valve(this->valves[HS::S21], DB4, manual_valve_S21_status, DB205, manual_valve_S21_virtual);
+			DI_S_valve(this->valves[HS::S2], DB4, manual_valve_S2_status, DB205, manual_valve_S2_virtual);
+			DI_S_valve(this->valves[HS::S3], DB4, manual_valve_S3_status, DB205, manual_valve_S3_virtual);
 		}
 
 		{ // filters state
@@ -380,44 +394,13 @@ public:
 			this->captions[HS::SBIntermediate4]->set_color((sb_intermediate_gantry_moving || sb_intermediate_winch_moving) ? running_color : label_color);//右耙中绞车和吊架
 			this->captions[HS::SBDraghead]->set_color((sb_draghead_gantry_moving || sb_draghead_winch_moving) ? running_color : label_color);//右耙头绞车和吊架
 			//this->captions[HS::PSDoors]->set_color(ps_door ? running_color : label_color);//左泥门//右泥门
-			this->captions[HS::Overflow]->set_color(DI_overflow_moving(DB205, overflow_pipe_status) ? running_color : label_color);//溢流桶
+			this->captions[HS::Overflow]->set_color((DI_overflow_moving(DB205, left_overflow_pipe_status)|| DI_overflow_moving(DB205, right_overflow_pipe_status)) ? running_color : label_color);//溢流桶
 			//问一下柏工this->captions[HS::ButterflyValves]->set_color(DI_pipeline_ready(DB205, pipeline_L2_W) ? running_color : label_color);//蝶阀
 			//this->captions[HS::DoorsLocking]->set_color(DI_hopper_doors_locked(DB205) ? running_color : label_color);//泥门锁紧
 			//应急泵
 			//循环冷却泵
 			this->captions[HS::J]->set_color(ps_visor_moving ? running_color : label_color);//左耙唇
 			this->captions[HS::I]->set_color(sb_visor_moving ? running_color : label_color);//右耙唇
-
-			//这部分删除
-			//this->captions[HS::PSDoors]->set_color(DI_pipeline_ready(DB205, pipeline_L2_G) ? running_color : label_color);
-			//this->captions[HS::SBDoors]->set_color(DI_pipeline_ready(DB205, pipeline_L3_W) ? running_color : label_color);
-			
-
-			/*
-			this->captions[HS::PSOffset]->set_color((ps_offset_gantry_moving || ps_offset_winch_moving) ? running_color : label_color);
-			this->captions[HS::PSIntermediate]->set_color((ps_intermediate_gantry_moving || ps_intermediate_winch_moving) ? running_color : label_color);
-			this->captions[HS::PSDraghead]->set_color((ps_draghead_gantry_moving || ps_draghead_winch_moving) ? running_color : label_color);
-			this->captions[HS::J]->set_color(ps_visor_moving ? running_color : label_color);
-			this->captions[HS::PSCompensator]->set_color(ps_compensator_moving ? running_color : label_color);
-			this->captions[HS::SBOffset]->set_color((sb_offset_gantry_moving || sb_offset_winch_moving) ? running_color : label_color);
-			this->captions[HS::SBIntermediate]->set_color((sb_intermediate_gantry_moving || sb_intermediate_winch_moving) ? running_color : label_color);
-			this->captions[HS::SBDraghead]->set_color((sb_draghead_gantry_moving || sb_draghead_winch_moving) ? running_color : label_color);
-			this->captions[HS::I]->set_color(sb_visor_moving ? running_color : label_color);
-			this->captions[HS::SBCompensator]->set_color(sb_compensator_moving ? running_color : label_color);
-
-			this->captions[HS::PSGateValves]->set_color(DI_pipeline_ready(DB205, pipeline_L1_W) ? running_color : label_color);
-			this->captions[HS::SBGateValves]->set_color(DI_pipeline_ready(DB205, pipeline_L1_G) ? running_color : label_color);
-			this->captions[HS::ButterflyValves]->set_color(DI_pipeline_ready(DB205, pipeline_L2_W) ? running_color : label_color);
-			this->captions[HS::PSDoors]->set_color(DI_pipeline_ready(DB205, pipeline_L2_G) ? running_color : label_color);
-			this->captions[HS::SBDoors]->set_color(DI_pipeline_ready(DB205, pipeline_L3_W) ? running_color : label_color);
-			this->captions[HS::DoorsLocking]->set_color(DI_hopper_doors_locked(DB205) ? running_color : label_color);
-			this->captions[HS::WateringValve]->set_color(DI_gate_value_moving(DB205, gate_valve_D01_status) ? running_color : label_color);
-			this->captions[HS::BowAnchor]->set_color(DI_gate_value_moving(DB205, bow_anchor_winch_details) ? running_color : label_color);
-			this->captions[HS::SternAnchor]->set_color(DI_winch_winding(DB205, stern_anchor_winch_details) ? running_color : label_color);
-			this->captions[HS::ShoreDischarge]->set_color((shore_dischange_winch_moving || shore_dischange_cylinder_moving) ? running_color : label_color);
-			this->captions[HS::Barge]->set_color(barging ? running_color : label_color);
-			this->captions[HS::Overflow]->set_color(DI_overflow_moving(DB205, overflow_pipe_status) ? running_color : label_color);
-			*/
 		}
 	}
 
@@ -588,7 +571,9 @@ public:
 		//this->load_dimension(this->pressures, HS::BowWinch, "bar");
 		//this->load_dimension(this->pressures, HS::SternWinch, "bar");
 
-		this->load_buttons(this->functions, 48.0F, 24.0F);
+		this->load_buttons(this->functions, HSFunction::BOPOverride, 48.0F, 24.0F);
+		this->load_buttons(this->functions, HSFunction::MasterOverride);
+		this->load_buttons(this->functions, HSFunction::VisorOverride);
 	}
 
 	void load_tanks(float width, float height, float gwidth, float gheight) {
@@ -685,6 +670,10 @@ public:
 
 			this->master->move_to(this->heaterlabels[HeaterSlot::Master], this->master_tank, GraphletAnchor::CB, GraphletAnchor::CT);
 			this->master->move_to(this->heaterlabels[HeaterSlot::Visor], this->visor_tank, GraphletAnchor::CB, GraphletAnchor::CT);
+			this->master->move_to(this->functions[HSFunction::MasterOverride],
+				this->master_tank, GraphletAnchor::LT, GraphletAnchor::LB);
+			this->master->move_to(this->functions[HSFunction::VisorOverride],
+				this->visor_tank, GraphletAnchor::LT, GraphletAnchor::LB);
 		}
 	}
 
@@ -920,6 +909,11 @@ private:
 			bs[cmd]->set_style(this->button_style);
 		}
 	}
+	template<class B, typename CMD>
+	void load_buttons(std::map<CMD, Credit<B, CMD>*>& bs,CMD id, float width = 128.0F, float height = 32.0F) {
+		bs[id] = this->master->insert_one(new Credit<B, CMD>(id.ToString(), width, height), id);
+		bs[id]->set_style(this->button_style);
+	}
 
 	template<class T, typename E>
 	void load_thermometer(std::map<E, Credit<T, E>*>& ts, std::map<E, Credit<Dimensionlet, E>*>& ds, E id, float width, float height) {
@@ -975,7 +969,7 @@ private:
 	}*/
 private:
 	bool valve_open(HS vid) {
-		return (this->valves[vid]->get_state() == ManualValveState::Open);
+		return (this->valves[vid]->get_state() == GateValveState::Open)|| (this->valves[vid]->get_state() == GateValveState::VirtualOpen);
 	}
 	bool pump_open(HS vid) {
 		return (this->pumps[vid]->get_state() == HydraulicPumpState::Running);
@@ -983,7 +977,8 @@ private:
 private:
 	void try_flow_oil(HS vid, HS pid, CanvasSolidColorBrush^ color) {
 		switch (this->valves[vid]->get_state()) {
-		case ManualValveState::Open: {
+		case GateValveState::Open:
+		case GateValveState::VirtualOpen: {
 			this->station->push_subtrack(vid, pid, color);
 		}
 		}
@@ -991,7 +986,8 @@ private:
 
 	void try_flow_oil(HS vid, HS mid, HS eid, CanvasSolidColorBrush^ color) {
 		switch (this->valves[vid]->get_state()) {
-		case ManualValveState::Open: {
+		case GateValveState::Open:
+		case GateValveState::VirtualOpen: {
 			this->station->push_subtrack(vid, mid, color);
 			this->station->push_subtrack(mid, eid, color);
 		}
@@ -1032,7 +1028,7 @@ private: // never deletes these graphlets mannually
 	std::map<HS, Credit<Labellet, HS>*> labels;
 	std::map<HeaterSlot, Credit<Labellet, HeaterSlot>*> heaterlabels;
 	std::map<HS, Credit<HydraulicPumplet, HS>*> pumps;
-	std::map<HS, Credit<ManualValvelet, HS>*> valves;
+	std::map<HS, Credit<GateValvelet, HS>*> valves;
 	std::map<HS, Credit<Dimensionlet, HS>*> pressures;
 	std::map<HS, Credit<Percentagelet, HS>*> flows;
 	std::map<HS, Credit<Alarmlet, HS>*> alarms;
@@ -1062,6 +1058,7 @@ HydraulicsPage::HydraulicsPage(PLCMaster* plc) : Planet(__MODULE__), device(plc)
 		this->gvisor_op = make_hydraulics_group_menu(HydraulicsGroup::VisorPumps, plc);
 		this->pump_op = make_hydraulic_pump_menu(DO_hydraulics_action, hydraulics_diagnostics, plc);
 		this->heater_op = make_tank_heater_menu(plc);
+		this->valve_op = make_hydraulic_valve_menu(DO_hydraulic_valve_action, plc);
 
 		this->device->push_confirmation_receiver(dashboard);
 	}
@@ -1130,7 +1127,9 @@ bool HydraulicsPage::can_select(IGraphlet* g) {
 	return ((this->device != nullptr)
 		&& ((dynamic_cast<HydraulicPumplet*>(g) != nullptr)
 			|| (dynamic_cast<Heaterlet*>(g) != nullptr)
-			|| (dynamic_cast<Buttonlet*>(g) != nullptr)));
+			|| (dynamic_cast<Buttonlet*>(g) != nullptr)
+			|| (dynamic_cast<GateValvelet*>(g) != nullptr)
+			|| (dynamic_cast<Alarmlet*>(g) != nullptr)));
 }
 
 bool HydraulicsPage::can_select_multiple() {
@@ -1140,8 +1139,10 @@ bool HydraulicsPage::can_select_multiple() {
 void HydraulicsPage::on_tap_selected(IGraphlet* g, float local_x, float local_y) {
 	auto pump = dynamic_cast<HydraulicPumplet*>(g);
 	//auto heater = dynamic_cast<Heaterlet*>(g);
-	auto heater =  dynamic_cast<Credit<Heaterlet, HeaterSlot>*>(g);
-	auto override = dynamic_cast<Buttonlet*>(g);
+	auto heater = dynamic_cast<Credit<Heaterlet, HeaterSlot>*>(g);
+	auto override = dynamic_cast<Credit<Buttonlet, HSFunction>*>(g);
+	auto alarm = dynamic_cast<Credit<Alarmlet, HS>*>(g);
+	auto valve = dynamic_cast<Credit<GateValvelet, HS>*>(g);
 
 	if (pump != nullptr) {
 		menu_popup(this->pump_op, g, local_x, local_y);
@@ -1150,7 +1151,53 @@ void HydraulicsPage::on_tap_selected(IGraphlet* g, float local_x, float local_y)
 		menu_popup(this->heater_op, g, local_x, local_y);
 	}
 	else if (override != nullptr) {
-		this->device->send_command(backoil_pressure_override_command);
+		switch (override->id)
+		{
+		case HSFunction::BOPOverride:
+			this->device->send_command(backoil_pressure_override_command);
+			break;
+		case HSFunction::MasterOverride:
+			this->device->send_command(Master_override_command);
+			break;
+		case HSFunction::VisorOverride:
+			this->device->send_command(Visor_override_command);
+			break;
+		default:
+			break;	
+		}
+	}
+	else if (alarm != nullptr) {
+		unsigned int id = 0;
+		switch (alarm->id) {
+		case HS::A1ToA2:
+			id = A1ToA2;
+			break;
+		case HS::A2ToA1:
+			id = A2ToA1;
+			break;
+		case HS::B12ToB34:
+			id = B12ToB34;
+			break;
+		case HS::B34ToB12:
+			id = B34ToB12;
+			break;
+		case HS::C1ToC2:
+			id = C1ToC2;
+			break;
+		case HS::C2ToC1:
+			id = C2ToC1;
+			break;
+		case HS::JToI:
+			id = JToI;
+			break;
+		case HS::IToJ:
+			id = IToJ;
+			break;
+		}
+		this->device->send_command(id);
+	}
+	else if (valve!=nullptr) {
+		menu_popup(this->valve_op, g, local_x, local_y);
 	}
 }
 

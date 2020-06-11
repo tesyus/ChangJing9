@@ -70,8 +70,8 @@ private enum class DS : unsigned int {
 	// Pump Dimensions
 	//C, B, A, F, G, H,
 	//PS
-	A1, B1, C1,//耙头 耙中,弯管
-	A2, B3, C2,//耙头 耙中,弯管
+	C1, B1, A1,//耙头 耙中,弯管
+	C2, B3, A2,//耙头 耙中,弯管
 
 	// labels
 	Overlook, Sidelook, Override, pump, hopper, underwater,
@@ -670,8 +670,8 @@ public:
 		DI_suction_buttons(this->ps_suctions[SuctionCommand::Inflate], this->ps_suctions[SuctionCommand::Deflate], DB205, suction_ps_buttons);
 		DI_suction_buttons(this->sb_suctions[SuctionCommand::Inflate], this->sb_suctions[SuctionCommand::Deflate], DB205, suction_sb_buttons);
 
-		//DI_boolean_button(this->lmod_buttons[LMODCommand::PSALMO], DB205, ps_almo_auto);
-		//DI_boolean_button(this->lmod_buttons[LMODCommand::SBALMO], DB205, sb_almo_auto);
+		DI_boolean_button(this->lmod_buttons[LMODCommand::PSALMO], DB205, ps_almo_auto);
+		DI_boolean_button(this->lmod_buttons[LMODCommand::SBALMO], DB205, sb_almo_auto);
 
 		//DI_boolean_button(this->ps_visors[DragVisorCommand::CResistance], DB205, ctension_ps_button);//长鲸9没有恒阻力
 		//DI_boolean_button(this->sb_visors[DragVisorCommand::CResistance], DB205, ctension_sb_button);//长鲸9没有恒阻力
@@ -867,7 +867,7 @@ public:
 			this->load_buttons(this->sb_suctions, DS::SB);
 			//this->load_buttons(this->ps_visors, DS::PS);//恒阻力
 			//this->load_buttons(this->sb_visors, DS::SB);
-			//this->load_buttons(this->lmod_buttons, DS::LMOD, xstep * 6.0F); //LMOD按钮
+			this->load_buttons(this->lmod_buttons, DS::LMOD, xstep * 6.0F); //LMOD按钮
 			this->load_buttons(this->ps_depthcommand, DS::PS);
 			this->load_buttons(this->sb_depthcommand, DS::SB);
 			this->load_buttons(this->ps_manual_control, DS::PS);//角度越控
@@ -1079,8 +1079,11 @@ public:
 		this->master->move_to(this->ps_manual_control[ManualControlCommand::ManualControl], this->ps_suctions[SuctionCommand::Inflate], GraphletAnchor::CB, GraphletAnchor::CT, 0.0F, vinset*2.5F);//角度越控
 		this->master->move_to(this->pressures[DS::PSSIP], this->ps_suctions[SuctionCommand::Inflate], GraphletAnchor::LC, GraphletAnchor::RC, -vinset);
 
-		this->station->map_graphlet_base_on_anchors(this->lmod_buttons[LMODCommand::PSALMO], DS::LMOD, DS::PSHP, GraphletAnchor::RC);
-		this->station->map_graphlet_base_on_anchors(this->lmod_buttons[LMODCommand::SBALMO], DS::LMOD, DS::SBHP, GraphletAnchor::LC);
+		//this->station->map_graphlet_base_on_anchors(this->lmod_buttons[LMODCommand::PSALMO], DS::LMOD, DS::PSHP, GraphletAnchor::RC);
+		//this->station->map_graphlet_base_on_anchors(this->lmod_buttons[LMODCommand::SBALMO], DS::LMOD, DS::SBHP, GraphletAnchor::LC);
+
+		this->master->move_to(this->lmod_buttons[LMODCommand::PSALMO], this->overflowpipe[DS::LeftOverflow], GraphletAnchor::CT, GraphletAnchor::CB ,0.0, -vinset);
+		this->master->move_to(this->lmod_buttons[LMODCommand::SBALMO], this->overflowpipe[DS::RightOverflow], GraphletAnchor::CT, GraphletAnchor::CB, 0.0, -vinset);
 
 
 		this->master->move_to(this->ps_depthcommand[DepthCommand::Encoder], this->degrees[DS::PSVisor], GraphletAnchor::LB, GraphletAnchor::CT);
@@ -1508,7 +1511,7 @@ public:
 			this->load_draghead(this->dragheads, DS::PSVisor, DS::PSDP, -draghead_radius, config, default_ps_color);
 			this->load_gantries(this->gantries, DredgesPosition::psOffset, DredgesPosition::psDragHead, +gantry_radius);
 			this->load_compensator(this->compensators, DS::PSWC, gantry_radius, compensator_range);
-			this->load_dimensions(this->pump_pressures, DredgesPosition::psOffset, DredgesPosition::psDragHead, DS::A1, "bar");
+			this->load_dimensions(this->pump_pressures, DredgesPosition::psOffset, DredgesPosition::psDragHead, DS::C1, "bar");
 			this->load_detailed_winches(this->winches, DredgesPosition::psOffset, DredgesPosition::psDragHead, winch_width);
 			this->load_dimension(this->forces, DS::PSPF1, "knewton");
 			this->load_dimension(this->forces, DS::PSPF2, "knewton");
@@ -1524,7 +1527,7 @@ public:
 			this->load_draghead(this->dragheads, DS::SBVisor, DS::SBDP, +draghead_radius, config, default_sb_color);
 			this->load_gantries(this->gantries, DredgesPosition::sbOffset, DredgesPosition::sbDragHead, -gantry_radius);
 			this->load_compensator(this->compensators, DS::SBWC, gantry_radius, compensator_range);
-			this->load_dimensions(this->pump_pressures, DredgesPosition::sbOffset, DredgesPosition::sbDragHead, DS::A2, "bar");
+			this->load_dimensions(this->pump_pressures, DredgesPosition::sbOffset, DredgesPosition::sbDragHead, DS::C2, "bar");
 			this->load_detailed_winches(this->winches, DredgesPosition::sbOffset, DredgesPosition::sbDragHead, winch_width);
 			this->load_dimension(this->forces, DS::SBPF1, "knewton");
 			this->load_dimension(this->forces, DS::SBPF2, "knewton");

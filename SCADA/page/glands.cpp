@@ -256,10 +256,10 @@ public:
 				if (!this->pump_open(GP::PSHP1))
 					this->try_flow_water(4, GP::PSHP2, GP::pshp2u, GP::pshp1, GP::pshp1end);
 				if (!this->pump_open(GP::PSHP3))
-					this->try_flow_water(5, GP::PSHP2, GP::pshp2d, GP::pshp3, GP::pshp3end, GP::pshp3end2);
+					this->try_flow_water(4, GP::PSHP2, GP::pshp2d, GP::pshp3, GP::pshp3end, GP::pshp3end2);
 			}
 			if (this->pump_open(GP::PSHP3)) {
-				this->try_flow_water(4, GP::PSHP3, GP::pshp3, GP::pshp3end, GP::pshp3end2);
+				this->try_flow_water(3, GP::PSHP3, GP::pshp3, GP::pshp3end, GP::pshp3end2);
 			}
 
 			if (this->pump_open(GP::SBHP1)) {

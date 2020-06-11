@@ -462,9 +462,9 @@ HopperDoorsPage::HopperDoorsPage(PLCMaster* plc) : Planet(__MODULE__), device(pl
 
 	if (this->device != nullptr) {
 		this->door_op = make_bottom_door_menu(plc);
-		this->gdoors12_op = make_bottom_doors_group_menu(BottomDoorsGroup::HDoor12, plc);
-		this->gdoors35_op = make_bottom_doors_group_menu(BottomDoorsGroup::HDoor35, plc);
-		this->gdoors67_op = make_bottom_doors_group_menu(BottomDoorsGroup::HDoor67, plc);
+		this->gdoors13_op = make_bottom_doors_group_menu(BottomDoorsGroup::HDoor13, plc);
+		this->gdoors57_op = make_bottom_doors_group_menu(BottomDoorsGroup::HDoor57, plc);
+		this->gdoors246_op = make_bottom_doors_group_menu(BottomDoorsGroup::HDoor246, plc);
 		this->gdoors17_op = make_bottom_doors_group_menu(BottomDoorsGroup::HDoor17, plc);
 
 		this->device->push_confirmation_receiver(dashboard);
@@ -558,6 +558,26 @@ void HopperDoorsPage::on_gesture(std::list<float2>& anchors, float x, float y) {
 	auto dashboard = dynamic_cast<Doors*>(this->dashboard);
 
 	if (dashboard != nullptr) {
+		Door hds13[] = { Door::PS1, Door::PS3, Door::SB1, Door::SB3 };
+		Door hds57[] = { Door::PS5, Door::SB5, Door::PS7, Door::SB7};
+		Door hds246[] = { Door::PS2, Door::PS4,Door::PS6, Door::SB2, Door::SB4, Door::SB6 };
+		bool g1_okay = dashboard->doors_selected(hds13, 1);
+		bool g2_okay = dashboard->doors_selected(hds57, 1);
+		bool g3_okay = dashboard->doors_selected(hds246, 1);
+
+		if (g1_okay && g2_okay && g3_okay) {
+			group_menu_popup(this->gdoors17_op, this, x, y);
+		}
+		else if (dashboard->doors_selected(hds13, 2)) {
+			group_menu_popup(this->gdoors13_op, this, x, y);
+		}
+		else if (dashboard->doors_selected(hds57, 2)) {
+			group_menu_popup(this->gdoors57_op, this, x, y);
+		}
+		else if (dashboard->doors_selected(hds246, 2)) {
+			group_menu_popup(this->gdoors246_op, this, x, y);
+		}
+		/*
 		Door hds12[] = { Door::PS1, Door::PS2, Door::SB1, Door::SB2 };
 		Door hds35[] = { Door::PS3, Door::PS4, Door::PS5, Door::SB3, Door::SB4, Door::SB5 };
 		Door hds67[] = { Door::PS6, Door::PS7, Door::SB6, Door::SB7 };
@@ -574,5 +594,6 @@ void HopperDoorsPage::on_gesture(std::list<float2>& anchors, float x, float y) {
 		} else if (dashboard->doors_selected(hds67, 2)) {
 			group_menu_popup(this->gdoors67_op, this, x, y);
 		}
+		*/
 	}
 }

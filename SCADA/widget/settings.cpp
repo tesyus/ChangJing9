@@ -13,7 +13,7 @@
 #include "module.hpp"
 #include "preference.hxx"
 #include "brushes.hxx"
-#include <iotables\do_settings.hpp>
+#include "iotables\do_settings.hpp"
 #include <graphlet\ui\checklet.hpp>
 
 using namespace WarGrey::SCADA;

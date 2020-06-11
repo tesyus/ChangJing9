@@ -14,6 +14,7 @@
 #include "graphlet/ui/textlet.hpp"
 
 #include "iotables/ai_metrics.hpp"
+#include "iotables/ai_dredges.hpp"
 #include "iotables/di_doors.hpp"
 
 #include "iotables/ao_devices.hpp"
@@ -25,6 +26,7 @@
 #include "datum/path.hpp"
 
 #include "module.hpp"
+#include <iotables\ai_doors.hpp>
 
 using namespace WarGrey::SCADA;
 using namespace WarGrey::GYDM;
@@ -45,12 +47,13 @@ private enum class DL : unsigned int {
 	LeftOverflow, RightOverflow,NetWeight, AverageDraft, 
 	TrimDegrees, //纵倾
 	HeelDegrees, //横倾
-
+	ADC,//自动控制激活
 	_
 };
 
 private enum class SM : unsigned int {
-	kn, vacuum, fvolume, fspeed, dpforce, _
+	//kn, vacuum, fvolume, fspeed, dpforce1, dpforce2, _
+	kn, fvolume, fspeed, density, product_chance, payload_chance, _
 };
 
 /*************************************************************************************************/
@@ -72,6 +75,9 @@ public:
 		this->flonum_style = make_plain_dimension_style(small_metrics_font_size, normal_font_size, 2U);
 		this->fixnum_style = make_plain_dimension_style(small_metrics_font_size, normal_font_size, 0U);
 		this->setting_style = make_highlight_dimension_style(small_metrics_font_size, 5U, 2, this->plain_style.label_color, Colours::Background);
+
+		this->ps_address = make_ps_dredging_system_schema();
+		this->sb_address = make_sb_dredging_system_schema();
 	}
 
 public:
@@ -86,6 +92,8 @@ public:
 	void on_digital_input(long long timepoint_ms, const uint8* DB4, size_t count4, const uint8* DB205, size_t count205, Syslog* logger) override {
 		DI_hopper_doors_checks_button(this->hdchecks[BottomDoorCommand::OpenDoorCheck], BottomDoorCommand::OpenDoorCheck, DB205);
 		DI_hopper_doors_checks_button(this->hdchecks[BottomDoorCommand::CloseDoorCheck], BottomDoorCommand::CloseDoorCheck, DB205);
+		this->buttons[DL::ADC]->set_state(DBX(DB205, 1298 - 1U), ButtonState::Executing, ButtonState::Default);
+		
 	}
 
 	void on_analog_input(long long timepoint_ms, const uint8* DB2, size_t count2, const uint8* DB203, size_t count203, Syslog* logger) override {
@@ -136,10 +144,52 @@ public:
 			this->set_cylinder(EWTS::EarthWork, values, DBD(DB2, earthwork_value));//土方量
 			this->set_cylinder(EWTS::Capacity, values, DBD(DB2, vessel_value));
 
+			/*
+			*/
+
 			if (!this->timemachine) {
-				this->timeseries->set_values(values, true, timepoint_ms);
-			} else {
+				this->timeseries->set_values(values, Door_Open_Flag, true,  timepoint_ms);
+				Door_Open_Flag = false;
+			}
+			else  {
 				this->timeseries->scroll_to_timepoint(timepoint_ms);
+			}
+		}
+
+		{ // set radars
+			double ps_metrics[_N(SM)];
+			double sb_metrics[_N(SM)];
+			//航速
+			ps_metrics[_I(SM::kn)] = DBD(DB2, 584U) / dredging_speed_range;
+			sb_metrics[_I(SM::kn)] = DBD(DB2, 584U) / dredging_speed_range;
+			//流量
+			this->set_flow_volume(ps_metrics, DB2, ps_flow, flow_volume_range);
+			this->set_flow_volume(sb_metrics, DB2, sb_flow, flow_volume_range);
+			//流速
+			this->set_flow_speed(ps_metrics, DB203, this->ps_address->water_density_speed + 1, flow_speed_range);
+			this->set_flow_speed(sb_metrics, DB203, this->sb_address->water_density_speed + 1, flow_speed_range);
+			//密度
+			this->set_density(ps_metrics, DB203, this->ps_address->water_density_speed, density_range);
+			this->set_density(sb_metrics, DB203, this->sb_address->water_density_speed, density_range);
+			//产量率
+			this->set_product(ps_metrics, DB2, 264U, product_chance_range);
+			this->set_product(sb_metrics, DB2, 268U, product_chance_range);
+			//装舱率
+			this->set_payload(ps_metrics, DB2, 636U, payload_chance_range);
+			this->set_payload(sb_metrics, DB2, 640U, payload_chance_range);
+
+			this->ps_radar->set_scales(ps_metrics);
+			this->sb_radar->set_scales(sb_metrics);
+		}
+
+		//泥门打开状态
+		{
+			if (door_open(DB203) && this->Door_Open_Flag_Old == false) {
+				this->Door_Open_Flag = true;
+				this->Door_Open_Flag_Old = true;
+			}
+			else if(!door_open(DB203) && Door_Open_Flag == false) {
+				this->Door_Open_Flag_Old = false;
 			}
 		}
 	}
@@ -181,7 +231,8 @@ public:
 
 		//this->load_overflow(this->overflowpipe, DL::LeftOverflow, overflow_height);
 		//this->load_overflow(this->overflowpipe, DL::RightOverflow, overflow_height);
-		this->radar = this->master->insert_one(new Radarlet<SM>(__MODULE__, overflow_height * 0.618F));
+		this->ps_radar = this->master->insert_one(new Radarlet<SM>(__MODULE__, overflow_height * 0.5F, Colours::make(default_ps_color)));
+		this->sb_radar = this->master->insert_one(new Radarlet<SM>(__MODULE__, overflow_height * 0.5F, Colours::make(default_sb_color)));
 
 		cylinder_height = ship_height * 0.42F;
 		this->load_cylinder(this->cylinders, EWTS::EarthWork, cylinder_height, earthwork_range, 0U, "meter3");
@@ -200,6 +251,7 @@ public:
 		this->load_setting(this->dimensions, DL::RightOverflow, "meter");
 
 		this->load_buttons(this->hdchecks, BottomDoorCommand::OpenDoorCheck, BottomDoorCommand::CloseDoorCheck);
+		this->buttons[DL::ADC] = this->master->insert_one(new Credit<Buttonlet, DL>(_speak(DL::ADC), 128, 32), DL::ADC);
 
 		{ // load timeseries
 			float lines_height = ship_y * 0.72F;
@@ -244,7 +296,8 @@ public:
 		this->master->move_to(this->overflowpipe[DL::RightOverflow], rofpx, rofpy, GraphletAnchor::CC, 0.0F, -gapsize);
 		this->master->move_to(this->dimensions[DL::LeftOverflow], this->overflowpipe[DL::LeftOverflow], GraphletAnchor::CB, GraphletAnchor::CT, 0.0F, gapsize);
 		this->master->move_to(this->dimensions[DL::RightOverflow], this->overflowpipe[DL::RightOverflow], GraphletAnchor::CB, GraphletAnchor::CT, 0.0F, gapsize);
-		this->master->move_to(this->radar, this->overflowpipe[DL::RightOverflow], GraphletAnchor::RC, GraphletAnchor::LC, gapsize*3);
+		this->master->move_to(this->ps_radar, this->overflowpipe[DL::RightOverflow], GraphletAnchor::RC, GraphletAnchor::LB, gapsize * 3.0F, -gapsize * 0.0F);
+		this->master->move_to(this->sb_radar, this->overflowpipe[DL::RightOverflow], GraphletAnchor::RC, GraphletAnchor::LT, gapsize * 3.0F, +gapsize * 1.5F);
 		
 		{ // reflow dimensions
 			float cpt_height, xoff, yoff;
@@ -286,10 +339,13 @@ public:
 			this->master->move_to(this->dimensions[DL::HeelDegrees],this->dimensions[DL::TrimDegrees], GraphletAnchor::RC,GraphletAnchor::LC, vinset * 2.0F);
 
 			this->master->fill_graphlet_location(this->cydimensions[EWTS::HopperHeight], &tcx, &dimby, GraphletAnchor::CB);
+			
 			this->master->move_to(this->hdchecks[BottomDoorCommand::OpenDoorCheck], tcx, (dimby + shby) * 0.5F, GraphletAnchor::RC, -vinset);
 			this->master->move_to(this->hdchecks[BottomDoorCommand::CloseDoorCheck],
 				this->hdchecks[BottomDoorCommand::OpenDoorCheck], GraphletAnchor::RC,
 				GraphletAnchor::LC, vinset * 2.0F);
+			//this->master->move_to(this->buttons[DL::ADC], this->overflowpipe[DL::LeftOverflow],  GraphletAnchor::CB, GraphletAnchor::CT, (rofpx - lofpx)/2,vinset*2);
+			this->master->move_to(this->buttons[DL::ADC],lofpx, (dimby + shby) * 0.5F,  GraphletAnchor::CB, vinset*2);
 		}
 	}
 
@@ -385,6 +441,42 @@ private:
 		this->cydimensions[id]->set_value(value, GraphletAnchor::CC);
 		values[_I(id)] = value;
 	}
+	void set_flow_speed(double* metrics, const uint8* db203, unsigned int idx, double range) {
+		metrics[_I(SM::fspeed)] = RealData(db203, idx + 1U) / range;
+	}
+
+	void set_flow_volume(double* metrics, const uint8* db2, unsigned int idx, double range) {
+		metrics[_I(SM::fvolume)] = DBD(db2, idx) / range;
+	}
+
+	void set_density(double* metrics, const uint8* db203, unsigned int idx, double range) {
+		metrics[_I(SM::density)] = RealData(db203, idx) / range;
+	}
+	void set_product(double* metrics, const uint8* db2, unsigned int idx, double range) {
+		metrics[_I(SM::product_chance)] = DBD(db2, idx) / range;
+	}
+	void set_payload(double* metrics, const uint8* db2, unsigned int idx, double range) {
+		metrics[_I(SM::payload_chance)] = DBD(db2, idx) / range;
+	}
+	bool door_open(const uint8* db203) {
+		float opennum = 95;
+		bool flag = (RealData(db203, bottom_door_PS1_progress) > opennum&&
+			RealData(db203, bottom_door_PS2_progress) > opennum&&
+			RealData(db203, bottom_door_PS3_progress) > opennum&&
+			RealData(db203, bottom_door_PS4_progress) > opennum&&
+			RealData(db203, bottom_door_PS5_progress) > opennum&&
+			RealData(db203, bottom_door_PS6_progress) > opennum&&
+			RealData(db203, bottom_door_PS7_progress) > opennum&&
+
+			RealData(db203, bottom_door_SB1_progress) > opennum&&
+			RealData(db203, bottom_door_SB2_progress) > opennum&&
+			RealData(db203, bottom_door_SB3_progress) > opennum&&
+			RealData(db203, bottom_door_SB4_progress) > opennum&&
+			RealData(db203, bottom_door_SB5_progress) > opennum&&
+			RealData(db203, bottom_door_SB6_progress) > opennum&&
+			RealData(db203, bottom_door_SB7_progress) > opennum);
+		return flag;
+	}
 
 private: // never delete these graphlets manually.
 	std::map<DL, Credit<Labellet, DL>*> labels;
@@ -393,10 +485,14 @@ private: // never delete these graphlets manually.
 	std::map<EWTS, Credit<Dimensionlet, EWTS>*> cydimensions;
 	std::map<EWTS, Credit<Cylinderlet, EWTS>*> cylinders;
 	std::map<BottomDoorCommand, Credit<Buttonlet, BottomDoorCommand>*> hdchecks;
+	std::map<DL, Credit<Buttonlet, DL>*> buttons;
 	TimeSerieslet<EWTS>* timeseries;
 	//OverflowPipelet* overflowpipe;
 	std::map<DL, Credit<OverflowPipelet, DL>*> overflowpipe;
-	Radarlet<SM>* radar;
+
+	Radarlet<SM>* ps_radar;
+	Radarlet<SM>* sb_radar;
+	bool isOpen;
 
 private:
 	CanvasTextFormat^ label_font;
@@ -414,6 +510,13 @@ private:
 	long long departure;
 	long long destination;
 	bool timemachine;
+private:
+	DredgeAddress* ps_address;
+	DredgeAddress* sb_address;
+
+private:
+	bool Door_Open_Flag_Old = false;//泥门打开 抛泥完毕
+	bool Door_Open_Flag = false;//泥门打开 抛泥完毕
 };
 
 /*************************************************************************************************/
@@ -553,6 +656,7 @@ void DraughtsPage::on_tap_selected(IGraphlet* g, float local_x, float local_y) {
 	//auto overflow = dynamic_cast<OverflowPipelet*>(g); 
 	auto overflow = dynamic_cast<Credit<OverflowPipelet, DL>*>(g);
 	auto hdchecker = dynamic_cast<Credit<Buttonlet, BottomDoorCommand>*>(g);
+	auto button = dynamic_cast<Credit<Buttonlet, DL>*>(g);
 	
 	if (overflow != nullptr) {
 		switch (overflow->id) {
@@ -566,6 +670,9 @@ void DraughtsPage::on_tap_selected(IGraphlet* g, float local_x, float local_y) {
 		//menu_popup(this->overflow_op, g, local_x, local_y);
 	} else if (hdchecker != nullptr) {
 		this->device->send_command(DO_bottom_doors_special_command(hdchecker->id));
+	}
+	else if (button != nullptr) {
+		this->device->send_command(871);
 	}
 }
 

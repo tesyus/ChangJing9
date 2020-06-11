@@ -321,7 +321,13 @@
   <data name="StemSpray" xml:space="preserve">
     <value>艏喷</value>
   </data>
-  <data name="AllDoorOpen" xml:space="preserve">
+  <data name="PSAllDoorOpen" xml:space="preserve">
     <value>全泥门开关</value>
+  </data>
+  <data name="SBAllDoorOpen" xml:space="preserve">
+    <value>全泥门开关</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
   </data>
 </root>

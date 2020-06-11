@@ -131,10 +131,10 @@ public:
 
 		//左右排出信号 之后补
 		
-		this->pressures[FS::PSPump]->set_value(RealData(DB203, sb_water_pump_discharge_pressure), GraphletAnchor::CB);
-		this->flows[FS::PSPump]->set_value(RealData(DB203, sb_water_pump_flow), GraphletAnchor::CT);
-		this->pressures[FS::SBPump]->set_value(RealData(DB203, ps_water_pump_discharge_pressure), GraphletAnchor::CB);
-		this->flows[FS::SBPump]->set_value(RealData(DB203, ps_water_pump_flow), GraphletAnchor::CT);
+		this->pressures[FS::PSPump]->set_value(RealData(DB203, ps_water_pump_discharge_pressure), GraphletAnchor::CB);
+		this->flows[FS::PSPump]->set_value(RealData(DB203, ps_water_pump_flow), GraphletAnchor::CT);
+		this->pressures[FS::SBPump]->set_value(RealData(DB203, sb_water_pump_discharge_pressure), GraphletAnchor::CB);
+		this->flows[FS::SBPump]->set_value(RealData(DB203, sb_water_pump_flow), GraphletAnchor::CT);
 		
 
 		this->powers[FS::PSPump]->set_value(RealData(DB203, ps_water_pump_power), GraphletAnchor::CB);

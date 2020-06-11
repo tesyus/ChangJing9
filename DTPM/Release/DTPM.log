@@ -1,0 +1,33 @@
+﻿  metricslet.cpp
+  timemachine.cxx
+  nmea0183.cpp
+  mrmaster.cpp
+  mrmessage.cpp
+  mbclient.cpp
+  mbdevice.cpp
+  dataunit.cpp
+  mbserver.cpp
+  exception.cpp
+  gps_cs.cpp
+  trailing_suction_dredger.cpp
+  editor.cpp
+  colorplot.cpp
+  dredgetrack.cpp
+  profile.cpp
+D:\Github\tesyus\ChangJing9\BigBang\graphlet\ui\metricslet.cpp(309,1): fatal error C1001: 编译器中发生内部错误。
+  (编译器文件“msc1.cpp”，第 1528 行)
+   要解决此问题，请尝试简化或更改上面所列位置附近的程序。
+  请选择 Visual C++
+  “帮助”菜单上的“技术支持”命令，或打开技术支持帮助文件来获得详细信息。
+D:\Github\tesyus\ChangJing9\Base\datum\credit.hpp(7): message : 在编译 类 模板 成员函数“WarGrey::SCADA::Credit<WarGrey::SCADA::Labellet,unsigned int>::Credit(const wchar_t *,<T_ellipsis>...)”时 (编译源文件 D:\Github\tesyus\ChangJing9\BigBang\graphlet\ui\metricslet.cpp)
+D:\Github\tesyus\ChangJing9\BigBang\timemachine.cxx(145,1): fatal error C1001: 编译器中发生内部错误。
+  (编译器文件“msc1.cpp”，第 1528 行)
+   要解决此问题，请尝试简化或更改上面所列位置附近的程序。
+  请选择 Visual C++
+  “帮助”菜单上的“技术支持”命令，或打开技术支持帮助文件来获得详细信息。
+D:\Github\tesyus\ChangJing9\Base\datum\credit.hpp(7): message : 在编译 类 模板 成员函数“WarGrey::SCADA::Credit<WarGrey::SCADA::Labellet,TMIcon>::Credit(const wchar_t *,<T_ellipsis>...)”时 (编译源文件 D:\Github\tesyus\ChangJing9\BigBang\timemachine.cxx)
+  cipher.cpp
+  core.cpp
+  s_box.cpp
+  enckey.cpp
+cl : 命令行 error D8040: 创建子进程或与子进程通讯时出错

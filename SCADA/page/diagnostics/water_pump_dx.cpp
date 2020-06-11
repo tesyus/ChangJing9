@@ -36,7 +36,7 @@ private enum class WP : unsigned int {
 	Ready,
 	NoFlushStop,
 	PipeReady,
-	SuctionInPlace,//吸口到位
+	//SuctionInPlace,//吸口到位
 	LeaveThe0,//旋钮离开0位
 	//FlushReady,
 	/*
@@ -80,7 +80,7 @@ public:
 		this->diagnoses[WP::Ready]->set_state(DBX(DB4, this->ps ? 816U : 848U), AlarmState::Notice, AlarmState::None);
 		this->diagnoses[WP::NoFlushStop]->set_state(!DBX(DB4, this->ps ? 820U : 852U), AlarmState::Notice, AlarmState::None);
 		this->diagnoses[WP::PipeReady]->set_state(DBX(DB205, this->ps ? 688U : 689U), AlarmState::Notice, AlarmState::None);
-		this->diagnoses[WP::SuctionInPlace]->set_state(DBX(DB205, this->ps ? 2402U : 2546U), AlarmState::Notice, AlarmState::None);
+		//this->diagnoses[WP::SuctionInPlace]->set_state(DBX(DB205, this->ps ? 2402U : 2546U), AlarmState::Notice, AlarmState::None);
 		this->diagnoses[WP::LeaveThe0]->set_state(DBX(DB4, this->ps ? 646U : 582U), AlarmState::Notice, AlarmState::None);
 		/*
 		this->diagnoses[WP::RemoteControl]->set_state(DI_water_pump_remote_control(DB4, feedback), AlarmState::Notice, AlarmState::None);

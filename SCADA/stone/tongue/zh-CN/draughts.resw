@@ -195,8 +195,11 @@
   <data name="RightOverflow" xml:space="preserve">
     <value>右溢流桶高度</value>
   </data>
-  <data name="dpforce" xml:space="preserve">
-    <value>耙管拉力</value>
+  <data name="payload_chance" xml:space="preserve">
+    <value>装舱率</value>
+  </data>
+  <data name="product_chance" xml:space="preserve">
+    <value>产量率</value>
   </data>
   <data name="fspeed" xml:space="preserve">
     <value>流速</value>
@@ -209,5 +212,11 @@
   </data>
   <data name="vacuum" xml:space="preserve">
     <value>真空</value>
+  </data>
+  <data name="ADC" xml:space="preserve">
+    <value>自动控制激活</value>
+  </data>
+  <data name="density" xml:space="preserve">
+    <value>密度</value>
   </data>
 </root>
